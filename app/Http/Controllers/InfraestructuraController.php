@@ -8,7 +8,7 @@ use App\Models\Infraestructura;
 class InfraestructuraController extends Controller
 {
     public function showInfra(){
-        Infraestructura::with([
+        /*Infraestructura::with([
             'marca:id,nombre',
             'model:id,nombre',
             'tipo:id,nombre',
@@ -17,7 +17,7 @@ class InfraestructuraController extends Controller
         ])
         ->select('id,nombre,num_serie,ultimo_mant,detalles')
         ->where('active',1)
-        ->get();
+        ->get();*/
 
         $test = array(
             'data' => 'henlo'
