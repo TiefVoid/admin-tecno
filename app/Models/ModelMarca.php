@@ -10,10 +10,10 @@ class InfraMarca extends Model
 {
     use HasFactory;
 
-    protected $table = 'rel_infr_marca';
+    protected $table = 'rel_model_marca';
 
-    public function infra()
+    public function model()
     {
-        $this->belongsTo(Infraestructura::class);
+        $this->belongsTo(Modelo::class);
     }
 }

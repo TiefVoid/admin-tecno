@@ -12,7 +12,7 @@ class Marca extends Model
 
     protected $table = "marca";
 
-    public function infraestructura(){
-        return $this->$this->belongsToMany(Infraestructura::class, 'rel_infr_marca', 'marca_id', 'infr_id')->withPivot('id');
+    public function modelo(){
+        return $this->$this->belongsToMany(Infraestructura::class, 'rel_model_marca', 'marca_id', 'model_id')->withPivot('id');
     }
 }
