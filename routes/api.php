@@ -21,5 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('infra') -> group(function(){
     Route::get('/view',[InfraestructuraController::class, 'showInfra']);
+    Route::get('/view/{id}',[InfraestructuraController::class, 'showInfraById']);
+    Route::get('/type/{type}',[InfraestructuraController::class, 'showInfraByType']);
     Route::delete('/del/{id}',[InfraestructuraController::class, 'delInfra']);
 });

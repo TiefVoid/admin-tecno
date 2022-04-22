@@ -23,6 +23,31 @@ class InfraestructuraController extends Controller
         ->get();
     }
 
+    public function showInfraById($id){
+        return Infraestructura::with([
+            'modelo:id,nombre',
+            'tipo:id,nombre',
+            'staff:id,nombre',
+            'area:id,nombre'
+        ])
+        ->select('id','nombre','num_serie','ultimo_mant','detalles','capacidad','unidad')
+        ->where('active',1)
+        ->where('id',$id)
+        ->get();
+    }
+
+    public function showInfraByType($type){
+        return Infraestructura::with([
+            'modelo:id,nombre',
+            'tipo:id,nombre',
+            'staff:id,nombre',
+            'area:id,nombre'
+        ])
+        ->select('id','nombre','num_serie','ultimo_mant','detalles','capacidad','unidad')
+        ->where('active',1)
+        ->get();
+    }
+
     public function delInfra($id){
         $infra = Infraestructura::find($id);
 
