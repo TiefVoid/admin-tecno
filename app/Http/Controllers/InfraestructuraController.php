@@ -8,6 +8,9 @@ use App\Models\InfraArea;
 use App\Models\InfraModelo;
 use App\Models\InfraStaff;
 use App\Models\InfraTipo;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class InfraestructuraController extends Controller
 {
@@ -19,7 +22,7 @@ class InfraestructuraController extends Controller
             'area:id,nombre'
         ])
         ->select('id','nombre','num_serie','ultimo_mant','detalles','capacidad','unidad')
-        ->where('active',1)
+        //->where('active','1')
         ->get();
     }
 
@@ -31,7 +34,7 @@ class InfraestructuraController extends Controller
             'area:id,nombre'
         ])
         ->select('id','nombre','num_serie','ultimo_mant','detalles','capacidad','unidad')
-        ->where('active',1)
+        ->where('active','1')
         ->where('id',$id)
         ->get();
     }
@@ -39,12 +42,15 @@ class InfraestructuraController extends Controller
     public function showInfraByType($type){
         return Infraestructura::with([
             'modelo:id,nombre',
-            'tipo:id,nombre',
+            'tipo' => function ($query) use ($type) {
+                $query->select('tipo.id','nombre')
+                ->where('tipo.id',$type);
+            },
             'staff:id,nombre',
             'area:id,nombre'
         ])
         ->select('id','nombre','num_serie','ultimo_mant','detalles','capacidad','unidad')
-        ->where('active',1)
+        ->where('active','1')
         ->get();
     }
 
@@ -59,6 +65,34 @@ class InfraestructuraController extends Controller
             InfraModelo::where('infr_id',$id)->update($del);
             InfraStaff::where('infr_id',$id)->update($del);
             InfraTipo::where('infr_id',$id)->update($del);
+
+            return response()->json([
+                'detail' => 'Equipo desactivado exitosamente']);
+        }else{
+            return response()->json([
+                'detail' => 'El equipo no existe']);
+        }
+    }
+
+    public function editInfra($id, Request $request){
+        $infra = Infraestructura::find($id);
+
+        if(!empty($infra)){
+            $datos = $request->all();
+            $validator = Validator::make($datos, [
+                'code' => 'required|string',
+                'name' => 'required|string',
+                'type' => 'required|string',
+                'active' => [Rule::in('1','0')]
+            ]);
+
+            if ($validator->fails()){
+
+                return response()->json([
+                    'details'=>$validator->errors()
+                ], 400);
+    
+            }
 
             return response()->json([
                 'detail' => 'Equipo desactivado exitosamente']);
