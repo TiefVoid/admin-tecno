@@ -17,7 +17,7 @@ class InfraestructuraController extends Controller
     public function showInfra(){
         return Infraestructura::with([
             'modelo:id,nombre',
-            'modelo.marca:id,nombre',
+            //'modelo.marca:id,nombre',
             'tipo:id,nombre',
             'staff:id,nombre',
             'area:id,nombre'
@@ -30,7 +30,7 @@ class InfraestructuraController extends Controller
     public function showInfraById($id){
         return Infraestructura::with([
             'modelo:id,nombre',
-            'modelo.marca:id,nombre',
+            //'modelo.marca:id,nombre',
             'tipo:id,nombre',
             'staff:id,nombre',
             'area:id,nombre'
@@ -44,7 +44,7 @@ class InfraestructuraController extends Controller
     public function showInfraByType($type){
         return Infraestructura::with([
             'modelo:id,nombre',
-            'modelo.marca:id,nombre',
+            //'modelo.marca:id,nombre',
             'tipo' => function ($query) use ($type) {
                 $query->select('tipo.id','nombre')
                 ->where('tipo.id',$type);
