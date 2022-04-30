@@ -16,6 +16,8 @@ class Infraestructura extends Model
 
     protected $table = "infraestructura";
 
+    protected $fillable = ['id','created_at'];
+
     public function modelo(){
         return $this->belongsToMany(Modelo::class, 'rel_infr_model', 'infr_id', 'model_id')->withPivot('id');
     }

@@ -17,20 +17,20 @@ class InfraestructuraController extends Controller
     public function showInfra(){
         return Infraestructura::with([
             'modelo:id,nombre',
-            //'modelo.marca:id,nombre',
+            'modelo.marca:id,nombre',
             'tipo:id,nombre',
             'staff:id,nombre',
             'area:id,nombre'
         ])
         ->select('id','nombre','num_serie','ultimo_mant','detalles','capacidad','unidad')
-        //->where('active','1')
+        ->where('active','1')
         ->get();
     }
 
     public function showInfraById($id){
         return Infraestructura::with([
             'modelo:id,nombre',
-            //'modelo.marca:id,nombre',
+            'modelo.marca:id,nombre',
             'tipo:id,nombre',
             'staff:id,nombre',
             'area:id,nombre'
@@ -44,7 +44,7 @@ class InfraestructuraController extends Controller
     public function showInfraByType($type){
         return Infraestructura::with([
             'modelo:id,nombre',
-            //'modelo.marca:id,nombre',
+            'modelo.marca:id,nombre',
             'tipo' => function ($query) use ($type) {
                 $query->select('tipo.id','nombre')
                 ->where('tipo.id',$type);
@@ -78,9 +78,6 @@ class InfraestructuraController extends Controller
     }
 
     public function editInfra($id, Request $request){
-        $infra = Infraestructura::find($id);
-
-        if(!empty($infra)){
             $datos = $request->all();
             $validator = Validator::make($datos, [
                 'code' => 'required|string',
@@ -99,9 +96,45 @@ class InfraestructuraController extends Controller
 
             return response()->json([
                 'detail' => 'Equipo desactivado exitosamente']);
-        }else{
+    }
+
+    public function addInfra(Request $request){
+            $datos = $request->all();
+            $validator = Validator::make($datos, [
+                'nombre' => 'required|string',
+                'num_serie' => 'required|string',
+                'capacidad' => 'required|numeric',
+                'unidad' => 'required|string',
+                'tipo' => 'required|integer',
+                'marca' => 'required|string',
+                'modelo' => 'required|string',
+                'area' => 'required|integer',
+                'staff' => 'required|integer'
+            ]);
+
+            if ($validator->fails()){
+
+                return response()->json([
+                    'details'=>$validator->errors()
+                ], 400);
+    
+            }
+
+            $infra = new Infraestructura();
+            $infra->nombre = $datos['nombre'];
+            $infra->num_serie = $datos['num_serie'];
+            $infra->capacidad = $datos['capacidad'];
+            $infra->unidad = $datos['unidad'];
+            $infra->created_by = 1;
+            $infra->save();
+
+            //['created_by'=>Auth::user()->id]
+            $infra->modelo()->attach($datos['modelo'],['created_by'=>1]);
+            $infra->staff()->attach($datos['staff'],['created_by'=>1]);
+            $infra->area()->attach($datos['area'],['created_by'=>1]);
+            $infra->tipo()->attach($datos['tipo'],['created_by'=>1]);
+
             return response()->json([
-                'detail' => 'El equipo no existe']);
-        }
+                'detail' => 'Equipo registrado exitosamente']);
     }
 }

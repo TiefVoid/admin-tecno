@@ -23,5 +23,6 @@ Route::prefix('infra') -> group(function(){
     Route::get('/view',[InfraestructuraController::class, 'showInfra']);
     Route::get('/view/{id}',[InfraestructuraController::class, 'showInfraById']);
     Route::get('/cat/{type}',[InfraestructuraController::class, 'showInfraByType']);
+    Route::post('/new',[InfraestructuraController::class, 'addInfra']);
     Route::delete('/del/{id}',[InfraestructuraController::class, 'delInfra']);
 });
