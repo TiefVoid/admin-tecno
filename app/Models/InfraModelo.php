@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Infraestructura;
+use App\Models\Modelo;
 
 class InfraModelo extends Model
 {
@@ -14,6 +15,11 @@ class InfraModelo extends Model
 
     public function infra()
     {
-        $this->belongsTo(Infraestructura::class);
+        return $this->belongsTo(Infraestructura::class);
+    }
+
+    public function modelo()
+    {
+        return $this->belongsTo(Modelo::class);
     }
 }

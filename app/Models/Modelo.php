@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Infraestructura;
+use App\Models\Marca;
 
 class Modelo extends Model
 {
@@ -12,7 +13,7 @@ class Modelo extends Model
 
     protected $table = "modelo";
 
-    public function infraestructura(){
+    public function infra(){
         return $this->belongsToMany(Infraestructura::class, 'rel_infr_model', 'model_id', 'infr_id')->withPivot('id');
     }
 
