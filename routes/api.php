@@ -4,6 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InfraestructuraController;
 use App\Http\Controllers\TipoController;
+use App\Http\Controllers\AreaController;
+use App\Http\Controllers\MarcaController;
+use App\Http\Controllers\ModeloController;
+use App\Http\Controllers\StaffController;
 
 /*
 |--------------------------------------------------------------------------
