@@ -42,7 +42,7 @@ class ModeloController extends Controller
         $datos = $request->all();
             $validator = Validator::make($datos, [
                 'nombre' => 'required|string',
-                'marca' => 'required|string'
+                'marca' => 'required|integer'
             ]);
 
             if ($validator->fails()){
@@ -62,13 +62,13 @@ class ModeloController extends Controller
                 'detail' => 'Modelo registrado exitosamente']);
     }
 
-    /*public function editModelo($id, Request $request){
+    public function editModelo($id, Request $request){
         $check = Modelo::find($id);
         if(!empty($check)){
             $datos = $request->all();
             $validator = Validator::make($datos, [
                 'nombre' => 'required|string',
-                'marca' => 'required|string',
+                'marca' => 'required|integer',
                 'active' => 'required|in:1,0'
             ]);
 
@@ -78,10 +78,27 @@ class ModeloController extends Controller
                 ], 400);
             }
 
+            $no_active = array('active'=>'0','updated_by'=>1);
+            $active = array('active'=>'1','updated_by'=>1);
+
             Modelo::where('id',$id)->update($datos);
+            $check = ModeloMarca::where('marca_id',$datos['marca'])->where('modelo_id',$id)->get();
+            if(!empty($check)){
+                ModeloMarca::where('marca_id',$datos['marca'])
+                ->where('modelo_id',$id)
+                ->update($active);
+            }else{
+                ModeloMarca::where('modelo_id',$id)->update($no_active);
+                $con = new ModeloMarca();
+                $con->modelo_id = $id;
+                $con->marca_id = $datos['marca'];
+                $con->created_by = 1;
+                $con->save();
+            }
+
             if($datos['active']=='0'){
-                InfraModelo::where('tipo_id',$id)->update(['active'=>$datos['active']]);
-                ModeloMarca::where('tipo_id',$id)->update(['active'=>$datos['active']]);
+                InfraModelo::where('modelo_id',$id)->update($no_active);
+                ModeloMarca::where('modelo_id',$id)->update($no_active);
             }
 
             return response()->json([
@@ -90,5 +107,5 @@ class ModeloController extends Controller
             return response()->json([
                 'detail' => 'El modelo no existe']);
         }
-    }*/
+    }
 }
