@@ -13,6 +13,6 @@ class Tipo extends Model
     protected $table = "tipo";
 
     public function infraestructura(){
-        return $this->$this->belongsToMany(Infraestructura::class, 'rel_infr_tipo', 'tipo_id', 'infr_id')->withPivot('id');
+        return $this->belongsToMany(Infraestructura::class, 'rel_infr_tipo', 'tipo_id', 'infr_id')->withPivot('id');
     }
 }

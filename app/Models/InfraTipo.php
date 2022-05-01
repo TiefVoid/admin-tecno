@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Infraestructura;
+use App\Models\Tipo;
 
 class InfraTipo extends Model
 {
@@ -15,5 +16,10 @@ class InfraTipo extends Model
     public function infra()
     {
         $this->belongsTo(Infraestructura::class);
+    }
+
+    public function tipo()
+    {
+        $this->belongsTo(Tipo::class);
     }
 }

@@ -16,11 +16,26 @@ class InfraestructuraController extends Controller
 {
     public function showInfra(){
         return Infraestructura::with([
-            'modelo:id,nombre',
-            'modelo.marca:id,nombre',
-            'tipo:id,nombre',
-            'staff:id,nombre',
-            'area:id,nombre'
+            'modelo'=> function ($query) {
+                $query->select('modelo.id','nombre')
+                ->wherePivot('active', '1');
+            },
+            'modelo.marca'=> function ($query) {
+                $query->select('marca.id','nombre')
+                ->wherePivot('active', '1');
+            },
+            'tipo'=> function ($query) {
+                $query->select('tipo.id','nombre')
+                ->wherePivot('active', '1');
+            },
+            'staff'=> function ($query) {
+                $query->select('staff.id','nombre')
+                ->wherePivot('active', '1');
+            },
+            'area'=> function ($query) {
+                $query->select('area.id','nombre')
+                ->wherePivot('active', '1');
+            }
         ])
         ->select('id','nombre','num_serie','ultimo_mant','detalles','capacidad','unidad')
         ->where('active','1')
@@ -29,11 +44,26 @@ class InfraestructuraController extends Controller
 
     public function showInfraById($id){
         return Infraestructura::with([
-            'modelo:id,nombre',
-            'modelo.marca:id,nombre',
-            'tipo:id,nombre',
-            'staff:id,nombre',
-            'area:id,nombre'
+            'modelo'=> function ($query) {
+                $query->select('modelo.id','nombre')
+                ->wherePivot('active', '1');
+            },
+            'modelo.marca'=> function ($query) {
+                $query->select('marca.id','nombre')
+                ->wherePivot('active', '1');
+            },
+            'tipo'=> function ($query) {
+                $query->select('tipo.id','nombre')
+                ->wherePivot('active', '1');
+            },
+            'staff'=> function ($query) {
+                $query->select('staff.id','nombre')
+                ->wherePivot('active', '1');
+            },
+            'area'=> function ($query) {
+                $query->select('area.id','nombre')
+                ->wherePivot('active', '1');
+            }
         ])
         ->select('id','nombre','num_serie','ultimo_mant','detalles','capacidad','unidad')
         ->where('active','1')
@@ -43,14 +73,27 @@ class InfraestructuraController extends Controller
 
     public function showInfraByType($type){
         return Infraestructura::with([
-            'modelo:id,nombre',
-            'modelo.marca:id,nombre',
+            'modelo'=> function ($query) {
+                $query->select('modelo.id','nombre')
+                ->wherePivot('active', '1');
+            },
+            'modelo.marca'=> function ($query) {
+                $query->select('marca.id','nombre')
+                ->wherePivot('active', '1');
+            },
             'tipo' => function ($query) use ($type) {
                 $query->select('tipo.id','nombre')
-                ->where('tipo.id',$type);
+                ->where('tipo.id',$type)
+                ->wherePivot('active', 1);;
             },
-            'staff:id,nombre',
-            'area:id,nombre'
+            'staff'=> function ($query) {
+                $query->select('staff.id','nombre')
+                ->wherePivot('active', '1');
+            },
+            'area'=> function ($query) {
+                $query->select('area.id','nombre')
+                ->wherePivot('active', '1');
+            }
         ])
         ->select('id','nombre','num_serie','ultimo_mant','detalles','capacidad','unidad')
         ->where('active','1')
@@ -78,12 +121,19 @@ class InfraestructuraController extends Controller
     }
 
     public function editInfra($id, Request $request){
+        $check = Infraestructura::find($id);
+        if(!empty($check)){
             $datos = $request->all();
             $validator = Validator::make($datos, [
-                'code' => 'required|string',
-                'name' => 'required|string',
-                'type' => 'required|string',
-                'active' => [Rule::in('1','0')]
+                'nombre' => 'required|string',
+                'num_serie' => 'required|string',
+                'capacidad' => 'required|numeric',
+                'unidad' => 'required|string',
+                'tipo' => 'required|integer',
+                'marca' => 'required|string',
+                'modelo' => 'required|string',
+                'area' => 'required|integer',
+                'staff' => 'required|integer'
             ]);
 
             if ($validator->fails()){
@@ -95,7 +145,8 @@ class InfraestructuraController extends Controller
             }
 
             return response()->json([
-                'detail' => 'Equipo desactivado exitosamente']);
+                'detail' => 'Equipo registrado exitosamente']);
+        }
     }
 
     public function addInfra(Request $request){

@@ -13,10 +13,10 @@ class Modelo extends Model
     protected $table = "modelo";
 
     public function infraestructura(){
-        return $this->$this->belongsToMany(Infraestructura::class, 'rel_infr_model', 'model_id', 'infr_id')->withPivot('id');
+        return $this->belongsToMany(Infraestructura::class, 'rel_infr_model', 'model_id', 'infr_id')->withPivot('id');
     }
 
     public function marca(){
-        return $this->$this->belongsToMany(Marca::class, 'rel_model_marca', 'marca_id', 'model_id')->withPivot('id');
+        return $this->belongsToMany(Marca::class, 'rel_model_marca', 'marca_id', 'model_id')->withPivot('id');
     }
 }

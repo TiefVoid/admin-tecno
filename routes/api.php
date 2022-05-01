@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InfraestructuraController;
+use App\Http\Controllers\TipoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +26,12 @@ Route::prefix('infra') -> group(function(){
     Route::get('/cat/{type}',[InfraestructuraController::class, 'showInfraByType']);
     Route::post('/new',[InfraestructuraController::class, 'addInfra']);
     Route::delete('/del/{id}',[InfraestructuraController::class, 'delInfra']);
+});
+
+Route::prefix('cat')->group(function(){
+    Route::get('/view',[TipoController::class, 'allTypes']);
+    Route::get('/view/{id}',[TipoController::class, 'typeById']);
+    Route::delete('/del/{id}',[TipoController::class, 'delType']);
+    Route::post('/new',[TipoController::class, 'addType']);
+    Route::put('/edit/{id}',[TipoController::class, 'editType']);
 });
