@@ -37,9 +37,33 @@ Route::prefix('cat')->group(function(){
 });
 
 Route::prefix('area')->group(function(){
-    Route::get('/view',[TipoController::class, 'allAreas']);
-    Route::get('/view/{id}',[TipoController::class, 'areaById']);
-    Route::delete('/del/{id}',[TipoController::class, 'delArea']);
-    Route::post('/new',[TipoController::class, 'addArea']);
-    Route::put('/edit/{id}',[TipoController::class, 'editArea']);
+    Route::get('/view',[AreaController::class, 'allAreas']);
+    Route::get('/view/{id}',[AreaController::class, 'areaById']);
+    Route::delete('/del/{id}',[AreaController::class, 'delArea']);
+    Route::post('/new',[AreaController::class, 'addArea']);
+    Route::put('/edit/{id}',[AreaController::class, 'editArea']);
+});
+
+Route::prefix('marca')->group(function(){
+    Route::get('/view',[MarcaController::class, 'allMarcas']);
+    Route::get('/view/{id}',[MarcaController::class, 'marcaById']);
+    Route::delete('/del/{id}',[MarcaController::class, 'delMarca']);
+    Route::post('/new',[MarcaController::class, 'addMarca']);
+    Route::put('/edit/{id}',[arcaController::class, 'editMarca']);
+});
+
+Route::prefix('modelo')->group(function(){
+    Route::get('/view',[ModeloController::class, 'allModels']);
+    Route::get('/view/{id}',[ModeloController::class, 'modelById']);
+    Route::delete('/del/{id}',[ModeloController::class, 'delModel']);
+    Route::post('/new',[ModeloController::class, 'addModel']);
+    Route::put('/edit/{id}',[ModeloController::class, 'editModel']);
+});
+
+Route::prefix('staff')->group(function(){
+    Route::get('/view',[StaffController::class, 'allStaff']);
+    Route::get('/view/{id}',[StaffController::class, 'staffById']);
+    Route::delete('/del/{id}',[StaffController::class, 'delStaff']);
+    Route::post('/new',[StaffController::class, 'addStaff']);
+    Route::put('/edit/{id}',[StaffController::class, 'editStaff']);
 });
