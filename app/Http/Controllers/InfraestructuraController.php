@@ -120,7 +120,7 @@ class InfraestructuraController extends Controller
         }
     }
 
-    /*public function editInfra($id, Request $request){
+    public function editInfra($id, Request $request){
         $check = Infraestructura::find($id);
         if(!empty($check)){
             $datos = $request->all();
@@ -130,10 +130,10 @@ class InfraestructuraController extends Controller
                 'capacidad' => 'required|numeric',
                 'unidad' => 'required|string',
                 'tipo' => 'required|integer',
-                'marca' => 'required|string',
                 'modelo' => 'required|string',
                 'area' => 'required|integer',
-                'staff' => 'required|integer'
+                'staff' => 'required|integer',
+                'active' => 'required|in:1,0'
             ]);
 
             if ($validator->fails()){
@@ -144,10 +144,81 @@ class InfraestructuraController extends Controller
     
             }
 
+            $no_active = array('active'=>'0','updated_by'=>1);
+            $active = array('active'=>'1','updated_by'=>1);
+
+            Infraestructura::where('id',$id)->update($datos);
+
+            $check = InfraArea::where('area_id',$datos['area'])->where('infr_id',$id)->get();
+            if(!empty($check)){
+                InfraArea::where('area_id',$datos['area'])
+                ->where('infr_id',$id)
+                ->update($active);
+            }else{
+                InfraArea::where('area_id',$id)->update($no_active);
+                $con = new InfraArea();
+                $con->infr_id = $id;
+                $con->area_id = $datos['area'];
+                $con->created_by = 1;
+                $con->save();
+            }
+
+            $check = InfraModelo::where('model_id',$datos['modelo'])->where('infr_id',$id)->get();
+            if(!empty($check)){
+                InfraModelo::where('model_id',$datos['modelo'])
+                ->where('infr_id',$id)
+                ->update($active);
+            }else{
+                InfraModelo::where('model_id',$id)->update($no_active);
+                $con = new InfraModelo();
+                $con->infr_id = $id;
+                $con->model_id = $datos['modelo'];
+                $con->created_by = 1;
+                $con->save();
+            }
+
+            $check = InfraStaff::where('person_id',$datos['staff'])->where('infr_id',$id)->get();
+            if(!empty($check)){
+                InfraStaff::where('person_id',$datos['staff'])
+                ->where('infr_id',$id)
+                ->update($active);
+            }else{
+                InfraStaff::where('person_id',$id)->update($no_active);
+                $con = new InfraStaff();
+                $con->infr_id = $id;
+                $con->person_id = $datos['staff'];
+                $con->created_by = 1;
+                $con->save();
+            }
+
+            $check = InfraTipo::where('tipo_id',$datos['tipo'])->where('infr_id',$id)->get();
+            if(!empty($check)){
+                InfraTipo::where('tipo_id',$datos['tipo'])
+                ->where('infr_id',$id)
+                ->update($active);
+            }else{
+                InfraTipo::where('tipo_id',$id)->update($no_active);
+                $con = new InfraTipo();
+                $con->infr_id = $id;
+                $con->tipo_id = $datos['tipo'];
+                $con->created_by = 1;
+                $con->save();
+            }
+
+            if($datos['active']=='0'){
+                InfraArea::where('infr_id',$id)->update($no_active);
+                InfraModelo::where('infr_id',$id)->update($no_active);
+                InfraStaff::where('infr_id',$id)->update($no_active);
+                InfraTipo::where('infr_id',$id)->update($no_active);
+            }
+
             return response()->json([
-                'detail' => 'Equipo registrado exitosamente']);
+                'detail' => 'Equipo actualizado exitosamente']);
+        }else{
+            return response()->json([
+                'detail' => 'El equipo no existe']);
         }
-    }*/
+    }
 
     public function addInfra(Request $request){
             $datos = $request->all();
@@ -157,7 +228,6 @@ class InfraestructuraController extends Controller
                 'capacidad' => 'required|numeric',
                 'unidad' => 'required|string',
                 'tipo' => 'required|integer',
-                'marca' => 'required|string',
                 'modelo' => 'required|string',
                 'area' => 'required|integer',
                 'staff' => 'required|integer'
