@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Infraestructura;
+use App\Models\Staff;
 
 class InfraStaff extends Model
 {
@@ -14,6 +15,11 @@ class InfraStaff extends Model
 
     public function infra()
     {
-        $this->belongsTo(Infraestructura::class);
+        return $this->belongsTo(Infraestructura::class);
+    }
+
+    public function staff()
+    {
+        return $this->belongsTo(Staff::class);
     }
 }
