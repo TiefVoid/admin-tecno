@@ -13,6 +13,6 @@ class Area extends Model
     protected $table = "area";
 
     public function infraestructura(){
-        return $this->$this->belongsToMany(Infraestructura::class, 'rel_infr_area', 'area_id', 'infr_id')->withPivot('id');
+        return $this->belongsToMany(Infraestructura::class, 'rel_infr_area', 'area_id', 'infr_id')->withPivot('id');
     }
 }

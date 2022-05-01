@@ -35,3 +35,11 @@ Route::prefix('cat')->group(function(){
     Route::post('/new',[TipoController::class, 'addType']);
     Route::put('/edit/{id}',[TipoController::class, 'editType']);
 });
+
+Route::prefix('area')->group(function(){
+    Route::get('/view',[TipoController::class, 'allAreas']);
+    Route::get('/view/{id}',[TipoController::class, 'areaById']);
+    Route::delete('/del/{id}',[TipoController::class, 'delArea']);
+    Route::post('/new',[TipoController::class, 'addArea']);
+    Route::put('/edit/{id}',[TipoController::class, 'editArea']);
+});
