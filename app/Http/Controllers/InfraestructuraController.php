@@ -120,7 +120,7 @@ class InfraestructuraController extends Controller
         }
     }
 
-    public function editInfra($id, Request $request){
+    /*public function editInfra($id, Request $request){
         $check = Infraestructura::find($id);
         if(!empty($check)){
             $datos = $request->all();
@@ -147,7 +147,7 @@ class InfraestructuraController extends Controller
             return response()->json([
                 'detail' => 'Equipo registrado exitosamente']);
         }
-    }
+    }*/
 
     public function addInfra(Request $request){
             $datos = $request->all();
