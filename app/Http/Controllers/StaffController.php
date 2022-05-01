@@ -75,8 +75,8 @@ class StaffController extends Controller
                 'telefono' => 'required|string|max:10',
                 'mail' => 'required|email',
                 'puesto' => 'required|string',
-                'rfc' => 'required|string',
-                'curp' => 'required|string',
+                'rfc' => 'required|string|max:13',
+                'curp' => 'required|string|max:18',
                 'num_staff' => 'required|string'
             ]);
 
@@ -116,8 +116,8 @@ class StaffController extends Controller
                 'telefono' => 'required|string|max:10',
                 'mail' => 'required|email',
                 'puesto' => 'required|string',
-                'rfc' => 'required|string',
-                'curp' => 'required|string',
+                'rfc' => 'required|string|max:13',
+                'curp' => 'required|string|max:18',
                 'num_staff' => 'required|string',
                 'active' => 'required|in:1,0'
             ]);
