@@ -36,7 +36,7 @@ class MarcaController extends Controller
         }
     }
 
-    public function addType(Request $request){
+    public function addMarca(Request $request){
         $datos = $request->all();
             $validator = Validator::make($datos, [
                 'nombre' => 'required|string'
@@ -57,7 +57,7 @@ class MarcaController extends Controller
                 'detail' => 'Marca registrada exitosamente']);
     }
 
-    public function editType($id, Request $request){
+    public function editMarca($id, Request $request){
         $check = Marca::find($id);
         if(!empty($check)){
             $datos = $request->all();
