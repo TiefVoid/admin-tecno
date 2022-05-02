@@ -71,6 +71,7 @@ class StaffController extends Controller
         $datos = $request->all();
             $validator = Validator::make($datos, [
                 'nombre' => 'required|string',
+                'user_id' => 'required|integer',
                 'apellido_paterno' => 'required|string',
                 'apellido_materno' => 'required|string',
                 'direccion' => 'required|string',
@@ -91,6 +92,7 @@ class StaffController extends Controller
 
             $cat = new Staff();
             $cat->nombre = $datos['nombre'];
+            $cat->user_id = $datos['user_id'];
             $cat->apellido_paterno = $datos['apellido_paterno'];
             $cat->apellido_materno = $datos['apellido_materno'];
             $cat->direccion = $datos['direccion'];
