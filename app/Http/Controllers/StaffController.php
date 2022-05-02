@@ -26,6 +26,7 @@ class StaffController extends Controller
             'num_staff'
             )
         ->where('active','1')
+        ->paginate(15)
         ->get();
     }
 
