@@ -14,90 +14,101 @@ use Illuminate\Validation\ValidationException;
 
 class InfraestructuraController extends Controller
 {
-    public function showInfra(){
-        return Infraestructura::with([
-            'modelo'=> function ($query) {
-                $query->select('modelo.id','nombre')
-                ->wherePivot('active', '1');
-            },
-            'modelo.marca'=> function ($query) {
-                $query->select('marca.id','nombre')
-                ->wherePivot('active', '1');
-            },
-            'tipo'=> function ($query) {
-                $query->select('tipo.id','nombre')
-                ->wherePivot('active', '1');
-            },
-            'staff'=> function ($query) {
-                $query->select('staff.id','nombre')
-                ->wherePivot('active', '1');
-            },
-            'area'=> function ($query) {
-                $query->select('area.id','nombre')
-                ->wherePivot('active', '1');
-            }
-        ])
-        ->select('id','nombre','num_serie','ultimo_mant','detalles','capacidad','unidad')
-        ->where('active','1')
-        ->get();
-    }
+    public function showInfra(Request $request){
+        $data = $request->all();
 
-    public function showInfraById($id){
-        return Infraestructura::with([
-            'modelo'=> function ($query) {
-                $query->select('modelo.id','nombre')
-                ->wherePivot('active', '1');
-            },
-            'modelo.marca'=> function ($query) {
-                $query->select('marca.id','nombre')
-                ->wherePivot('active', '1');
-            },
-            'tipo'=> function ($query) {
-                $query->select('tipo.id','nombre')
-                ->wherePivot('active', '1');
-            },
-            'staff'=> function ($query) {
-                $query->select('staff.id','nombre')
-                ->wherePivot('active', '1');
-            },
-            'area'=> function ($query) {
-                $query->select('area.id','nombre')
-                ->wherePivot('active', '1');
-            }
-        ])
-        ->select('id','nombre','num_serie','ultimo_mant','detalles','capacidad','unidad')
-        ->where('active','1')
-        ->where('id',$id)
-        ->get();
-    }
+        $query = Infraestructura::select('id','nombre','num_serie','ultimo_mant','detalles','capacidad','unidad')
+        ->where('active','1');
+        
+        //filtro por modelo
+        if($request->has('modelo')){
+            $query->with([
+                'modelo'=> function ($query) use($data){
+                    $query->select('modelo.id','nombre')
+                    ->where('modelo.id',$data['modelo'])
+                    ->wherePivot('active', '1');
+                }]);
+        }else{
+            $query->with([
+                'modelo'=> function ($query){
+                    $query->select('modelo.id','nombre')
+                    ->wherePivot('active', '1');
+                }]);
+        }
 
-    public function showInfraByType($type){
-        return Infraestructura::with([
-            'modelo'=> function ($query) {
-                $query->select('modelo.id','nombre')
-                ->wherePivot('active', '1');
-            },
-            'modelo.marca'=> function ($query) {
-                $query->select('marca.id','nombre')
-                ->wherePivot('active', '1');
-            },
-            'tipo' => function ($query) use ($type) {
-                $query->select('tipo.id','nombre')
-                ->where('tipo.id',$type)
-                ->wherePivot('active', 1);;
-            },
-            'staff'=> function ($query) {
-                $query->select('staff.id','nombre')
-                ->wherePivot('active', '1');
-            },
-            'area'=> function ($query) {
-                $query->select('area.id','nombre')
-                ->wherePivot('active', '1');
-            }
-        ])
-        ->select('id','nombre','num_serie','ultimo_mant','detalles','capacidad','unidad')
-        ->where('active','1')
-        ->get();
+        //filtro por marca
+        if($request->has('marca')){
+            $query->with([
+                'modelo.marca'=> function ($query) use($data){
+                    $query->select('marca.id','nombre')
+                    ->where('marca.id',$data['marca'])
+                    ->wherePivot('active', '1');
+                }]);
+        }else{
+            $query->with([
+                'modelo.marca'=> function ($query) {
+                    $query->select('marca.id','nombre')
+                    ->wherePivot('active', '1');
+                }]);
+        }
+
+        //filtro por tipo
+        if($request->has('tipo')){
+            $query->with([
+                'tipo'=> function ($query) use($data){
+                    $query->select('tipo.id','nombre')
+                    ->where('tipo.id',$data['tipo'])
+                    ->wherePivot('active', '1');
+                }]);
+        }else{
+            $query->with([
+                'tipo'=> function ($query) {
+                    $query->select('tipo.id','nombre')
+                    ->wherePivot('active', '1');
+                }]);
+        }
+
+        //filtro por staff
+        if($request->has('staff')){
+            $query->with([
+                'staff'=> function ($query) use($data){
+                    $query->select('staff.id','nombre')
+                    ->where('staff.id',$data['staff'])
+                    ->wherePivot('active', '1');
+                }]);
+        }else{
+            $query->with([
+                'staff'=> function ($query) {
+                    $query->select('staff.id','nombre')
+                    ->wherePivot('active', '1');
+                }]);
+        }
+
+        //filtro por area
+        if($request->has('area')){
+            $query->with([
+                'area'=> function ($query) use($data){
+                    $query->select('area.id','nombre')
+                    ->where('area.id',$data['area'])
+                    ->wherePivot('active', '1');
+                }]);
+        }else{
+            $query->with([
+                'area'=> function ($query) {
+                    $query->select('area.id','nombre')
+                    ->wherePivot('active', '1');
+                }]);
+        }
+
+        if($request->has('nombre')){
+            $query->Where('nombre','like','%'.$data['nombre'].'%');
+        }
+
+        if($request->has('num_serie')){
+            $query->Where('num_serie','like','%'.$data['num_serie'].'%');
+        }
+
+        return $query->get();
     }
 
     public function delInfra($id){
