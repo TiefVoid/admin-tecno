@@ -8,6 +8,8 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ModeloController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +25,9 @@ use App\Http\Controllers\StaffController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/register',[UserController::class, 'newUser']);
+Route::post('/login',[LoginController::class, 'login']);
 
 Route::prefix('infra') -> group(function(){
     Route::get('/view',[InfraestructuraController::class, 'showInfra']);
