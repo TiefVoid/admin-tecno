@@ -29,10 +29,12 @@ class AreaController extends Controller
             Area::where('id',$id)->update($data);
             InfraArea::where('area_id',$id)->update($data);
             return response()->json([
-                'detail' => 'Area desactivada exitosamente']);
+                'detail' => 'Area desactivada exitosamente',
+                'done' => true]);
         }else{
             return response()->json([
-                'detail' => 'El area no existe']);
+                'detail' => 'El area no existe',
+                'done' => false]);
         }
     }
 
@@ -44,7 +46,8 @@ class AreaController extends Controller
 
             if ($validator->fails()){
                 return response()->json([
-                    'details'=>$validator->errors()
+                    'detail'=>$validator->errors(),
+                    'done' => false
                 ], 400);
             }
 
@@ -54,7 +57,8 @@ class AreaController extends Controller
             $cat->save();
 
             return response()->json([
-                'detail' => 'Area registrada exitosamente']);
+                'detail' => 'Area registrada exitosamente',
+                'done' => true]);
     }
 
     public function editArea($id, Request $request){
@@ -68,7 +72,8 @@ class AreaController extends Controller
 
             if ($validator->fails()){
                 return response()->json([
-                    'details'=>$validator->errors()
+                    'detail'=>$validator->errors(),
+                    'done' => false
                 ], 400);
             }
 
@@ -78,10 +83,12 @@ class AreaController extends Controller
             }
 
             return response()->json([
-                'detail' => 'Area actualizada exitosamente']);
+                'detail' => 'Area actualizada exitosamente',
+                'done' => true]);
         }else{
             return response()->json([
-                'detail' => 'El area no existe']);
+                'detail' => 'El area no existe',
+                'done' => false]);
         }
     }
 }

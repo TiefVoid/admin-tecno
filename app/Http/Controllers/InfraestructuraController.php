@@ -108,6 +108,15 @@ class InfraestructuraController extends Controller
             $query->Where('num_serie','like','%'.$data['num_serie'].'%');
         }
 
+        if($request->has('start_date') && $request->has('end_date')){
+            $query->where('ultimo_mant','>=', $data['start_date'])
+            ->where('ultimo_mant','<=', $data['end_date']);
+        }else if($request->has('start_date')){
+            $query->where('ultimo_mant','>=', $data['start_date']);
+        }else if($request->has('end_date')){
+            $query->where('ultimo_mant','<=', $data['end_date']);
+        }
+
         return $query->get();
     }
 
@@ -124,10 +133,12 @@ class InfraestructuraController extends Controller
             InfraTipo::where('infr_id',$id)->update($del);
 
             return response()->json([
-                'detail' => 'Equipo desactivado exitosamente']);
+                'detail' => 'Equipo desactivado exitosamente',
+                'done' => true]);
         }else{
             return response()->json([
-                'detail' => 'El equipo no existe']);
+                'detail' => 'El equipo no existe',
+                'done' => false]);
         }
     }
 
@@ -150,7 +161,8 @@ class InfraestructuraController extends Controller
             if ($validator->fails()){
 
                 return response()->json([
-                    'details'=>$validator->errors()
+                    'detail'=>$validator->errors(),
+                    'done' => false
                 ], 400);
     
             }
@@ -224,10 +236,12 @@ class InfraestructuraController extends Controller
             }
 
             return response()->json([
-                'detail' => 'Equipo actualizado exitosamente']);
+                'detail' => 'Equipo actualizado exitosamente',
+                'done' => true]);
         }else{
             return response()->json([
-                'detail' => 'El equipo no existe']);
+                'detail' => 'El equipo no existe',
+                'done' => false]);
         }
     }
 
@@ -247,7 +261,8 @@ class InfraestructuraController extends Controller
             if ($validator->fails()){
 
                 return response()->json([
-                    'details'=>$validator->errors()
+                    'details'=>$validator->errors(),
+                    'done' => false
                 ], 400);
     
             }
@@ -267,6 +282,7 @@ class InfraestructuraController extends Controller
             $infra->tipo()->attach($datos['tipo'],['created_by'=>1]);
 
             return response()->json([
-                'detail' => 'Equipo registrado exitosamente']);
+                'detail' => 'Equipo registrado exitosamente',
+                'done' => true]);
     }
 }

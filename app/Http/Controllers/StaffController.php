@@ -58,10 +58,12 @@ class StaffController extends Controller
             Staff::where('id',$id)->update($data);
             InfraStaff::where('person_id',$id)->update($data);
             return response()->json([
-                'detail' => 'Empleado desactivado exitosamente']);
+                'detail' => 'Empleado desactivado exitosamente',
+                'done' => true]);
         }else{
             return response()->json([
-                'detail' => 'Ese empleado no existe']);
+                'detail' => 'Ese empleado no existe',
+                'done' => false]);
         }
     }
 
@@ -82,7 +84,8 @@ class StaffController extends Controller
 
             if ($validator->fails()){
                 return response()->json([
-                    'details'=>$validator->errors()
+                    'details'=>$validator->errors(),
+                    'done' => false
                 ], 400);
             }
 
@@ -101,7 +104,8 @@ class StaffController extends Controller
             $cat->save();
 
             return response()->json([
-                'detail' => 'Categoría registrada exitosamente']);
+                'detail' => 'Categoría registrada exitosamente',
+                'done' => true]);
     }
 
     public function editStaff($id, Request $request){
@@ -124,7 +128,8 @@ class StaffController extends Controller
 
             if ($validator->fails()){
                 return response()->json([
-                    'details'=>$validator->errors()
+                    'detail'=>$validator->errors(),
+                    'done' => false
                 ], 400);
             }
 
@@ -134,10 +139,12 @@ class StaffController extends Controller
             }
 
             return response()->json([
-                'detail' => 'Empleado actualizado exitosamente']);
+                'detail' => 'Empleado actualizado exitosamente',
+                'done' => true]);
         }else{
             return response()->json([
-                'detail' => 'El empleado no existe']);
+                'detail' => 'El empleado no existe',
+                'done' => false]);
         }
     }
 }

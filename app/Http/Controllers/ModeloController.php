@@ -31,10 +31,12 @@ class ModeloController extends Controller
             InfraModelo::where('model_id',$id)->update($data);
             ModeloMarca::where('model_id',$id)->update($data);
             return response()->json([
-                'detail' => 'Modelo desactivado exitosamente']);
+                'detail' => 'Modelo desactivado exitosamente',
+                'done' => true]);
         }else{
             return response()->json([
-                'detail' => 'El modelo no existe']);
+                'detail' => 'El modelo no existe',
+                'done' => false]);
         }
     }
 
@@ -47,7 +49,8 @@ class ModeloController extends Controller
 
             if ($validator->fails()){
                 return response()->json([
-                    'details'=>$validator->errors()
+                    'detail'=>$validator->errors(),
+                    'done' => false
                 ], 400);
             }
 
@@ -59,7 +62,8 @@ class ModeloController extends Controller
             $infra->marca()->attach($datos['marca'],['created_by'=>1]);
 
             return response()->json([
-                'detail' => 'Modelo registrado exitosamente']);
+                'detail' => 'Modelo registrado exitosamente',
+                'done' => true]);
     }
 
     public function editModelo($id, Request $request){
@@ -74,7 +78,8 @@ class ModeloController extends Controller
 
             if ($validator->fails()){
                 return response()->json([
-                    'details'=>$validator->errors()
+                    'detail'=>$validator->errors(),
+                    'done' => false
                 ], 400);
             }
 
@@ -102,10 +107,12 @@ class ModeloController extends Controller
             }
 
             return response()->json([
-                'detail' => 'Modelo actualizado exitosamente']);
+                'detail' => 'Modelo actualizado exitosamente',
+                'done' => true]);
         }else{
             return response()->json([
-                'detail' => 'El modelo no existe']);
+                'detail' => 'El modelo no existe',
+                'done' => false]);
         }
     }
 }

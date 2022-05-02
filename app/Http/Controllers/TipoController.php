@@ -29,10 +29,12 @@ class TipoController extends Controller
             Tipo::where('id',$id)->update($data);
             InfraTipo::where('tipo_id',$id)->update($data);
             return response()->json([
-                'detail' => 'Categoría desactivada exitosamente']);
+                'detail' => 'Categoría desactivada exitosamente',
+                'done' => true]);
         }else{
             return response()->json([
-                'detail' => 'La categoría no existe']);
+                'detail' => 'La categoría no existe',
+                'done' => false]);
         }
     }
 
@@ -44,7 +46,8 @@ class TipoController extends Controller
 
             if ($validator->fails()){
                 return response()->json([
-                    'details'=>$validator->errors()
+                    'detail'=>$validator->errors(),
+                    'done' => false
                 ], 400);
             }
 
@@ -54,7 +57,8 @@ class TipoController extends Controller
             $cat->save();
 
             return response()->json([
-                'detail' => 'Categoría registrada exitosamente']);
+                'detail' => 'Categoría registrada exitosamente',
+                'done' => true]);
     }
 
     public function editType($id, Request $request){
@@ -68,7 +72,8 @@ class TipoController extends Controller
 
             if ($validator->fails()){
                 return response()->json([
-                    'details'=>$validator->errors()
+                    'detail'=>$validator->errors(),
+                    'done' => false
                 ], 400);
             }
 
@@ -78,10 +83,12 @@ class TipoController extends Controller
             }
 
             return response()->json([
-                'detail' => 'Categoría actualizada exitosamente']);
+                'detail' => 'Categoría actualizada exitosamente',
+                'done' => true]);
         }else{
             return response()->json([
-                'detail' => 'La categoría no existe']);
+                'detail' => 'La categoría no existe',
+                'done' => false]);
         }
     }
 }

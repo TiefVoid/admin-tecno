@@ -29,10 +29,12 @@ class MarcaController extends Controller
             Marca::where('id',$id)->update($data);
             ModeloMarca::where('marca_id',$id)->update($data);
             return response()->json([
-                'detail' => 'Marca desactivada exitosamente']);
+                'detail' => 'Marca desactivada exitosamente',
+                'done' => true]);
         }else{
             return response()->json([
-                'detail' => 'La marca no existe']);
+                'detail' => 'La marca no existe',
+                'done' => false]);
         }
     }
 
@@ -44,7 +46,8 @@ class MarcaController extends Controller
 
             if ($validator->fails()){
                 return response()->json([
-                    'details'=>$validator->errors()
+                    'detail'=>$validator->errors(),
+                    'done' => false
                 ], 400);
             }
 
@@ -54,7 +57,8 @@ class MarcaController extends Controller
             $cat->save();
 
             return response()->json([
-                'detail' => 'Marca registrada exitosamente']);
+                'detail' => 'Marca registrada exitosamente',
+                'done' => true]);
     }
 
     public function editMarca($id, Request $request){
@@ -68,7 +72,8 @@ class MarcaController extends Controller
 
             if ($validator->fails()){
                 return response()->json([
-                    'details'=>$validator->errors()
+                    'detail'=>$validator->errors(),
+                    'done' => false
                 ], 400);
             }
 
@@ -78,10 +83,12 @@ class MarcaController extends Controller
             }
 
             return response()->json([
-                'detail' => 'Marca actualizada exitosamente']);
+                'detail' => 'Marca actualizada exitosamente',
+                'done' => true]);
         }else{
             return response()->json([
-                'detail' => 'La marca no existe']);
+                'detail' => 'La marca no existe',
+                'done' => false]);
         }
     }
 }
