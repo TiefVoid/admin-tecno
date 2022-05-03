@@ -56,7 +56,7 @@ Route::prefix('marca')->group(function(){
     Route::get('/view/{id}',[MarcaController::class, 'marcaById']);
     Route::delete('/del/{id}',[MarcaController::class, 'delMarca']);
     Route::post('/new',[MarcaController::class, 'addMarca']);
-    Route::put('/edit/{id}',[arcaController::class, 'editMarca']);
+    Route::put('/edit/{id}',[MarcaController::class, 'editMarca']);
 });
 
 Route::prefix('modelo')->group(function(){
