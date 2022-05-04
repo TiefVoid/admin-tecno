@@ -13,11 +13,11 @@ use Illuminate\Validation\ValidationException;
 class ModeloController extends Controller
 {
     public function allModels(){
-        return Modelo::select('id','nombre')->where('active','1')->get();
+        return Modelo::with('marca')->select('id','nombre')->where('active','1')->get();
     }
 
     public function modelById($id){
-        return Modelo::select('id','nombre')->where('active','1')->where('id',$id)->get();
+        return Modelo::with('marca')->select('id','nombre')->where('active','1')->where('id',$id)->get();
     }
 
     public function delModel($id){
