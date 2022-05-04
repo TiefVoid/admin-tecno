@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 class MarcaController extends Controller
 {
     public function allMarcas(){
-        return Marca::select('id','nombre')->where('active','1')->paginate(15)->get();
+        return Marca::select('id','nombre')->where('active','1')->get();
     }
 
     public function marcaById($id){

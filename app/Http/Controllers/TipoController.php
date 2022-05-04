@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 class TipoController extends Controller
 {
     public function allTypes(){
-        return Tipo::select('id','nombre')->where('active','1')->paginate(15)->get();
+        return Tipo::select('id','nombre')->where('active','1')->get();
     }
 
     public function typeById($id){

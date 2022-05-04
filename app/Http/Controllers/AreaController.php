@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 class AreaController extends Controller
 {
     public function allAreas(){
-        return Area::select('id','nombre')->where('active','1')->paginate(15)->get();
+        return Area::select('id','nombre')->where('active','1')->get();
     }
 
     public function areaById($id){

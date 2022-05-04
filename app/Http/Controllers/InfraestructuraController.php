@@ -117,7 +117,7 @@ class InfraestructuraController extends Controller
             $query->where('ultimo_mant','<=', $data['end_date']);
         }
 
-        return $query->paginate(15)->get();
+        return $query->get();
     }
 
     public function delInfra($id){

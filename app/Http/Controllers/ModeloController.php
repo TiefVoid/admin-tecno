@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
 class ModeloController extends Controller
 {
     public function allModels(){
-        return Modelo::select('id','nombre')->where('active','1')->paginate(15)->get();
+        return Modelo::select('id','nombre')->where('active','1')->get();
     }
 
     public function modelById($id){
