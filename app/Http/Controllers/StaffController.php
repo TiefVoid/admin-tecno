@@ -106,7 +106,7 @@ class StaffController extends Controller
             $cat->save();
 
             return response()->json([
-                'detail' => 'Categoría registrada exitosamente',
+                'detail' => 'Empleado registrado exitosamente',
                 'done' => true]);
     }
 
