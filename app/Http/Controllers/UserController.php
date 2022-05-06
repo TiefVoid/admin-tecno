@@ -15,7 +15,7 @@ class UserController extends Controller
     }
 
     public function showUsers(){
-        return User::all()->where('active','1')->get();
+        return User::select('id','user','password','mail','nivel')->where('active','1')->get();
     }
 
     public function newUser(Request $request){
