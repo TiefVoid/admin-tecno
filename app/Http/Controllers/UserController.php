@@ -14,6 +14,10 @@ class UserController extends Controller
             'detail' => 'Index']);
     }
 
+    public function showUsers(){
+        return User::all()->where('active','1')->get();
+    }
+
     public function newUser(Request $request){
         $datos = $request->all();
         $validator = Validator::make($datos, [

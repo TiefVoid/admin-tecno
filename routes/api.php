@@ -29,6 +29,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register',[UserController::class, 'newUser']);
 Route::post('/login',[LoginController::class, 'login']);
 
+Route::prefix('user') -> group(function(){
+    Route::get('/view',[UserController::class, 'showUsers']);
+});
+
 Route::prefix('infra') -> group(function(){
     Route::get('/view',[InfraestructuraController::class, 'showInfra']);
     Route::post('/new',[InfraestructuraController::class, 'addInfra']);
