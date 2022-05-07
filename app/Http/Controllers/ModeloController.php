@@ -59,7 +59,7 @@ class ModeloController extends Controller
             $cat->created_by = 1;
             $cat->save();
 
-            $infra->marca()->attach($datos['marca'],['created_by'=>1]);
+            $cat->marca()->attach($datos['marca'],['created_by'=>1]);
 
             return response()->json([
                 'detail' => 'Modelo registrado exitosamente',
