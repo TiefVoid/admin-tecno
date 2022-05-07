@@ -18,6 +18,6 @@ class Modelo extends Model
     }
 
     public function marca(){
-        return $this->belongsToMany(Marca::class, 'rel_model_marca', 'marca_id', 'model_id')->withPivot('id');
+        return $this->belongsToMany(Marca::class, 'rel_model_marca', 'model_id', 'marca_id')->withPivot('id');
     }
 }
