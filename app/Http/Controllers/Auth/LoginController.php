@@ -37,13 +37,15 @@ class LoginController extends Controller
             return response () -> json (['detail' => '¡El nombre de usuario o contraseña es incorrecto!','done' => false]);
         }
         if (password_verify($password , $user->password)) {
-
         unset($user['password']);
         // Token de inicio de sesión exitoso
         $token = $this->getJWTToken($user);
         cache('user-'.$user['id'],$user);
         $this->assignToken($mail,$token);
-        return response()->json(['detail' => $token,'done' => true]);
+        return response()->json(['detail' => $token,
+        'user' => $user,
+        'pass' => $password,
+        'done' => true]);
     }else{
         unset($user['password']);
         return response () -> json (['detail' => '¡El nombre de usuario o contraseña es incorrecto!','done' => false]);
