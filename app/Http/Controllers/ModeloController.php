@@ -83,10 +83,16 @@ class ModeloController extends Controller
                 ], 400);
             }
 
+            $model = array(
+                'nombre' => $datos['nombre'],
+                'active' => $datos['active'],
+                'updated_by' => 1
+            );
+
             $no_active = array('active'=>'0','updated_by'=>1);
             $active = array('active'=>'1','updated_by'=>1);
 
-            Modelo::where('id',$id)->update($datos);
+            Modelo::where('id',$id)->update($model);
             $check = ModeloMarca::where('marca_id',$datos['marca'])->where('modelo_id',$id)->get();
             if(!empty($check)){
                 ModeloMarca::where('marca_id',$datos['marca'])
