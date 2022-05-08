@@ -13,11 +13,17 @@ use Illuminate\Validation\ValidationException;
 class ModeloController extends Controller
 {
     public function allModels(){
-        return Modelo::with('marca')->select('id','nombre')->where('active','1')->get();
+        return Modelo::with([
+            'marca'=> function ($query){
+                $query->wherePivot('active', '1');
+            }])->select('id','nombre')->where('active','1')->get();
     }
 
     public function modelById($id){
-        return Modelo::with('marca')->select('id','nombre')->where('active','1')->where('id',$id)->get();
+        return Modelo::with([
+            'marca'=> function ($query){
+                $query->wherePivot('active', '1');
+            }])->select('id','nombre')->where('active','1')->where('id',$id)->get();
     }
 
     public function delModel($id){
@@ -93,8 +99,10 @@ class ModeloController extends Controller
             $active = array('active'=>'1','updated_by'=>1);
 
             Modelo::where('id',$id)->update($model);
+
             $check = ModeloMarca::where('marca_id',$datos['marca'])->where('model_id',$id)->get();
-            if(!empty($check)){
+            if(empty($check)){
+                ModeloMarca::where('model_id',$id)->update($no_active);
                 ModeloMarca::where('marca_id',$datos['marca'])
                 ->where('model_id',$id)
                 ->update($active);
