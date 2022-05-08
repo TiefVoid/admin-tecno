@@ -23,8 +23,7 @@ class InfraestructuraController extends Controller
         //filtro por modelo
         if($request->has('modelo')){
             $query->whereHas('modelo', function ($q) use ($data) {
-                $q->where('modelo.id', $data['modelo'])
-                ->wherePivot('active', '1');
+                $q->where('modelo.id', $data['modelo']);
             });
         }else{
             $query->with([
@@ -36,9 +35,8 @@ class InfraestructuraController extends Controller
 
         //filtro por marca
         if($request->has('marca')){
-            $query->whereHas('marca', function ($q) use ($data) {
-                $q->where('marca.id', $data['marca'])
-                ->wherePivot('active', '1');
+            $query->whereHas('modelo.marca', function ($q) use ($data) {
+                $q->where('marca.id', $data['marca']);
             });
         }else{
             $query->with([
@@ -51,8 +49,7 @@ class InfraestructuraController extends Controller
         //filtro por tipo
         if($request->has('tipo')){
             $query->whereHas('tipo', function ($q) use ($data) {
-                $q->where('tipo.id', $data['tipo'])
-                ->wherePivot('active', '1');
+                $q->where('tipo.id', $data['tipo']);
             });
         }else{
             $query->with([
@@ -65,8 +62,7 @@ class InfraestructuraController extends Controller
         //filtro por staff
         if($request->has('staff')){
             $query->whereHas('staff', function ($q) use ($data) {
-                $q->where('staff.id', $data['staff'])
-                ->wherePivot('active', '1');
+                $q->where('staff.id', $data['staff']);
             });
         }else{
             $query->with([
@@ -79,8 +75,7 @@ class InfraestructuraController extends Controller
         //filtro por area
         if($request->has('area')){
             $query->whereHas('area', function ($q) use ($data) {
-                $q->where('area.id', $data['area'])
-                ->wherePivot('active', '1');
+                $q->where('area.id', $data['area']);
             });
         }else{
             $query->with([
