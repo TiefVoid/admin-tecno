@@ -14,8 +14,14 @@ class UserController extends Controller
             'detail' => 'Index']);
     }
 
-    public function showUsers(){
-        return User::select('id','user','password','mail','nivel')->where('active','1')->get();
+    public function showUsers(Request $request){
+        $data = $request->all();
+        if($request->has('unused')){
+            return User::doesntHave('staff')
+            ->select('id','user','password','mail','nivel')->where('active','1')->get();
+        }else{
+            return User::select('id','user','password','mail','nivel')->where('active','1')->get();
+        }
     }
 
     public function newUser(Request $request){
