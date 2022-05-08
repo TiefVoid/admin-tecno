@@ -169,7 +169,15 @@ class InfraestructuraController extends Controller
             $no_active = array('active'=>'0','updated_by'=>1);
             $active = array('active'=>'1','updated_by'=>1);
 
-            Infraestructura::where('id',$id)->update($datos);
+            $equipo = array(
+                'nombre' => $datos['nombre'],
+                'num_serie' => $datos['num_serie'],
+                'capacidad' => $datos['capacidad'],
+                'unidad' => $datos['unidad'],
+                'active' => $datos['active']
+            );
+
+            Infraestructura::where('id',$id)->update($equipo);
 
             $check = InfraArea::where('area_id',$datos['area'])->where('infr_id',$id)->get();
             if(!empty($check)){
@@ -252,7 +260,7 @@ class InfraestructuraController extends Controller
                 'capacidad' => 'required|numeric',
                 'unidad' => 'required|string',
                 'tipo' => 'required|integer',
-                'modelo' => 'required|string',
+                'modelo' => 'required|integer',
                 'area' => 'required|integer',
                 'staff' => 'required|integer'
             ]);
