@@ -66,7 +66,7 @@ class ModeloController extends Controller
                 'done' => true]);
     }
 
-    public function editModelo($id, Request $request){
+    public function editModel($id, Request $request){
         $check = Modelo::find($id);
         if(!empty($check)){
             $datos = $request->all();
