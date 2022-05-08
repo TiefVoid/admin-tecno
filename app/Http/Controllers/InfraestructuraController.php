@@ -38,7 +38,7 @@ class InfraestructuraController extends Controller
             $query->whereHas('modelo.marca', function ($q) use ($data) {
                 $q->select('marca.id','nombre')
                 ->where('marca.id', $data['marca'])
-                ->where('active', '1');
+                ->where('rel_model_marca.active', '1');
             });
         }else{
             $query->with([
