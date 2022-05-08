@@ -25,7 +25,7 @@ class InfraestructuraController extends Controller
             $query->with([
                 'modelo'=> function ($query) use($data){
                     $query->select('modelo.id','nombre')
-                    ->where('modelo.id',$data['modelo'])
+                    ->wherePivot('modelo_id',$data['modelo'])
                     ->wherePivot('active', '1');
                 }]);
         }else{
@@ -41,7 +41,7 @@ class InfraestructuraController extends Controller
             $query->with([
                 'modelo.marca'=> function ($query) use($data){
                     $query->select('marca.id','nombre')
-                    ->where('marca.id',$data['marca'])
+                    ->wherePivot('marca_id',$data['marca'])
                     ->wherePivot('active', '1');
                 }]);
         }else{
@@ -57,7 +57,7 @@ class InfraestructuraController extends Controller
             $query->with([
                 'tipo'=> function ($query) use($data){
                     $query->select('tipo.id','nombre')
-                    ->where('tipo.id',$data['tipo'])
+                    ->wherePivot('tipo_id',$data['tipo'])
                     ->wherePivot('active', '1');
                 }]);
         }else{
@@ -73,7 +73,7 @@ class InfraestructuraController extends Controller
             $query->with([
                 'staff'=> function ($query) use($data){
                     $query->select('staff.id','nombre')
-                    ->where('staff.id',$data['staff'])
+                    ->wherePivot('person_id',$data['staff'])
                     ->wherePivot('active', '1');
                 }]);
         }else{
@@ -89,7 +89,7 @@ class InfraestructuraController extends Controller
             $query->with([
                 'area'=> function ($query) use($data){
                     $query->select('area.id','nombre')
-                    ->where('area.id',$data['area'])
+                    ->wherePivot('area_id',$data['area'])
                     ->wherePivot('active', '1');
                 }]);
         }else{
@@ -108,12 +108,11 @@ class InfraestructuraController extends Controller
             $query->Where('num_serie','like','%'.$data['num_serie'].'%');
         }
 
-        if($request->has('start_date') && $request->has('end_date')){
-            $query->where('ultimo_mant','>=', $data['start_date'])
-            ->where('ultimo_mant','<=', $data['end_date']);
-        }else if($request->has('start_date')){
+        if($request->has('start_date')){
             $query->where('ultimo_mant','>=', $data['start_date']);
-        }else if($request->has('end_date')){
+        }
+        
+        if($request->has('end_date')){
             $query->where('ultimo_mant','<=', $data['end_date']);
         }
 
