@@ -165,6 +165,13 @@ class InfraestructuraController extends Controller
                 'updated_by' => 1
             );
 
+            if($request->has('detalles')){
+                $equipo += ['detalles' => $datos['detalles']];
+            }
+            if($request->has('ultimo_mant')){
+                $equipo += ['ultimo_mant' => $datos['ultimo_mant']];
+            }
+
             Infraestructura::where('id',$id)->update($equipo);
 
             $check = InfraArea::where('area_id',$datos['area'])->where('infr_id',$id)->get();
@@ -187,7 +194,7 @@ class InfraestructuraController extends Controller
                 ->where('infr_id',$id)
                 ->update($active);
             }else{
-                InfraModelo::where('model_id',$id)->update($no_active);
+                InfraModelo::where('infr_id',$id)->update($no_active);
                 $con = new InfraModelo();
                 $con->infr_id = $id;
                 $con->model_id = $datos['modelo'];
@@ -201,7 +208,7 @@ class InfraestructuraController extends Controller
                 ->where('infr_id',$id)
                 ->update($active);
             }else{
-                InfraStaff::where('person_id',$id)->update($no_active);
+                InfraStaff::where('infr',$id)->update($no_active);
                 $con = new InfraStaff();
                 $con->infr_id = $id;
                 $con->person_id = $datos['staff'];
@@ -215,7 +222,7 @@ class InfraestructuraController extends Controller
                 ->where('infr_id',$id)
                 ->update($active);
             }else{
-                InfraTipo::where('tipo_id',$id)->update($no_active);
+                InfraTipo::where('infr_id',$id)->update($no_active);
                 $con = new InfraTipo();
                 $con->infr_id = $id;
                 $con->tipo_id = $datos['tipo'];
