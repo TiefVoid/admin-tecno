@@ -174,7 +174,8 @@ class InfraestructuraController extends Controller
                 'num_serie' => $datos['num_serie'],
                 'capacidad' => $datos['capacidad'],
                 'unidad' => $datos['unidad'],
-                'active' => $datos['active']
+                'active' => $datos['active'],
+                'updated_by' => 1
             );
 
             Infraestructura::where('id',$id)->update($equipo);
