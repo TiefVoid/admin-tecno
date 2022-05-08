@@ -151,7 +151,7 @@ class InfraestructuraController extends Controller
                 'capacidad' => 'required|numeric',
                 'unidad' => 'required|string',
                 'tipo' => 'required|integer',
-                'modelo' => 'required|string',
+                'modelo' => 'required|integer',
                 'area' => 'required|integer',
                 'staff' => 'required|integer',
                 'active' => 'required|in:1,0'
