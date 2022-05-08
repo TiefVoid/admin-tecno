@@ -22,12 +22,16 @@ class InfraestructuraController extends Controller
         
         //filtro por modelo
         if($request->has('modelo')){
-            $query->with([
+            $query->whereHas('modelo', function ($q) use ($data) {
+                $q->where('modelo.id', $data['modelo']);
+            });
+
+            /*$query->with([
                 'modelo'=> function ($query) use($data){
                     $query->select('modelo.id','nombre')
                     ->wherePivot('modelo_id',$data['modelo'])
                     ->wherePivot('active', '1');
-                }]);
+                }]);*/
         }else{
             $query->with([
                 'modelo'=> function ($query){
