@@ -24,7 +24,12 @@ class InfraestructuraController extends Controller
         if($request->has('modelo')){
             $query->whereHas('modelo', function ($q) use ($data) {
                 $q->where('modelo.id', $data['modelo']);
-            });
+            })
+            ->with([
+                'modelo'=> function ($query){
+                    $query->select('modelo.id','nombre')
+                    ->wherePivot('active', '1');
+                }]);
         }else{
             $query->with([
                 'modelo'=> function ($query){
@@ -36,10 +41,13 @@ class InfraestructuraController extends Controller
         //filtro por marca
         if($request->has('marca')){
             $query->whereHas('modelo.marca', function ($q) use ($data) {
-                $q->select('marca.id','nombre')
-                ->where('marca.id', $data['marca'])
-                ->where('rel_model_marca.active', '1');
-            });
+                $q->where('marca.id', $data['marca']);
+            })
+            ->with([
+                'modelo.marca'=> function ($query) {
+                    $query->select('marca.id','nombre')
+                    ->wherePivot('active', '1');
+                }]);
         }else{
             $query->with([
                 'modelo.marca'=> function ($query) {
@@ -52,7 +60,12 @@ class InfraestructuraController extends Controller
         if($request->has('tipo')){
             $query->whereHas('tipo', function ($q) use ($data) {
                 $q->where('tipo.id', $data['tipo']);
-            });
+            })
+            ->with([
+                'tipo'=> function ($query) {
+                    $query->select('tipo.id','nombre')
+                    ->wherePivot('active', '1');
+                }]);
         }else{
             $query->with([
                 'tipo'=> function ($query) {
@@ -65,7 +78,12 @@ class InfraestructuraController extends Controller
         if($request->has('staff')){
             $query->whereHas('staff', function ($q) use ($data) {
                 $q->where('staff.id', $data['staff']);
-            });
+            })
+            ->with([
+                'staff'=> function ($query) {
+                    $query->select('staff.id','nombre')
+                    ->wherePivot('active', '1');
+                }]);
         }else{
             $query->with([
                 'staff'=> function ($query) {
@@ -78,7 +96,12 @@ class InfraestructuraController extends Controller
         if($request->has('area')){
             $query->whereHas('area', function ($q) use ($data) {
                 $q->where('area.id', $data['area']);
-            });
+            })
+            ->with([
+                'area'=> function ($query) {
+                    $query->select('area.id','nombre')
+                    ->wherePivot('active', '1');
+                }]);
         }else{
             $query->with([
                 'area'=> function ($query) {
