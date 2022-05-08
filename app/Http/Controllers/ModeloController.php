@@ -12,11 +12,20 @@ use Illuminate\Validation\ValidationException;
 
 class ModeloController extends Controller
 {
-    public function allModels(){
-        return Modelo::with([
-            'marca'=> function ($query){
-                $query->wherePivot('active', '1');
-            }])->select('id','nombre')->where('active','1')->get();
+    public function allModels(Request $request){
+        $data = $request->all();
+
+        $query = Modelo::with('marca')->select('id','marca_id','nombre')->where('active','1')->get();
+
+        if($request->has('marca')){
+            $query->where('marca_id',$data['marca']);
+        }
+
+        if($request->has('nombre')){
+            $query->Where('nombre','like','%'.$data['nombre'].'%');
+        }
+
+        return $query->get();
     }
 
     public function modelById($id){
@@ -101,7 +110,7 @@ class ModeloController extends Controller
             Modelo::where('id',$id)->update($model);
 
             $check = ModeloMarca::where('marca_id',$datos['marca'])->where('model_id',$id)->get();
-            if(empty($check)){
+            if(isset($check)){
                 ModeloMarca::where('model_id',$id)->update($no_active);
                 ModeloMarca::where('marca_id',$datos['marca'])
                 ->where('model_id',$id)

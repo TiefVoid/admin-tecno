@@ -38,24 +38,6 @@ class InfraestructuraController extends Controller
                 }]);
         }
 
-        //filtro por marca
-        if($request->has('marca')){
-            $query->whereHas('modelo.marca', function ($q) use ($data) {
-                $q->where('marca.id', $data['marca']);
-            })
-            ->with([
-                'modelo.marca'=> function ($query) {
-                    $query->select('marca.id','nombre')
-                    ->wherePivot('active', '1');
-                }]);
-        }else{
-            $query->with([
-                'modelo.marca'=> function ($query) {
-                    $query->select('marca.id','nombre')
-                    ->wherePivot('active', '1');
-                }]);
-        }
-
         //filtro por tipo
         if($request->has('tipo')){
             $query->whereHas('tipo', function ($q) use ($data) {
@@ -198,7 +180,7 @@ class InfraestructuraController extends Controller
             Infraestructura::where('id',$id)->update($equipo);
 
             $check = InfraArea::where('area_id',$datos['area'])->where('infr_id',$id)->get();
-            if(!empty($check)){
+            if(isset($check)){
                 InfraArea::where('area_id',$datos['area'])
                 ->where('infr_id',$id)
                 ->update($active);
@@ -212,7 +194,7 @@ class InfraestructuraController extends Controller
             }
 
             $check = InfraModelo::where('model_id',$datos['modelo'])->where('infr_id',$id)->get();
-            if(!empty($check)){
+            if(isset($check)){
                 InfraModelo::where('model_id',$datos['modelo'])
                 ->where('infr_id',$id)
                 ->update($active);
@@ -226,12 +208,12 @@ class InfraestructuraController extends Controller
             }
 
             $check = InfraStaff::where('person_id',$datos['staff'])->where('infr_id',$id)->get();
-            if(!empty($check)){
+            if(isset($check)){
                 InfraStaff::where('person_id',$datos['staff'])
                 ->where('infr_id',$id)
                 ->update($active);
             }else{
-                InfraStaff::where('infr',$id)->update($no_active);
+                InfraStaff::where('infr_id',$id)->update($no_active);
                 $con = new InfraStaff();
                 $con->infr_id = $id;
                 $con->person_id = $datos['staff'];
@@ -240,7 +222,7 @@ class InfraestructuraController extends Controller
             }
 
             $check = InfraTipo::where('tipo_id',$datos['tipo'])->where('infr_id',$id)->get();
-            if(!empty($check)){
+            if(isset($check)){
                 InfraTipo::where('tipo_id',$datos['tipo'])
                 ->where('infr_id',$id)
                 ->update($active);

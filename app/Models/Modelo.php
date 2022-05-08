@@ -17,7 +17,8 @@ class Modelo extends Model
         return $this->belongsToMany(Infraestructura::class, 'rel_infr_model', 'model_id', 'infr_id')->withPivot('id');
     }
 
-    public function marca(){
-        return $this->belongsToMany(Marca::class, 'rel_model_marca', 'model_id', 'marca_id')->withPivot('id');
+    public function marca()
+    {
+        return $this->belongsTo(Marca::class);
     }
 }
