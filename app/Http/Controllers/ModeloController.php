@@ -93,23 +93,23 @@ class ModeloController extends Controller
             $active = array('active'=>'1','updated_by'=>1);
 
             Modelo::where('id',$id)->update($model);
-            $check = ModeloMarca::where('marca_id',$datos['marca'])->where('modelo_id',$id)->get();
+            $check = ModeloMarca::where('marca_id',$datos['marca'])->where('model_id',$id)->get();
             if(!empty($check)){
                 ModeloMarca::where('marca_id',$datos['marca'])
-                ->where('modelo_id',$id)
+                ->where('model_id',$id)
                 ->update($active);
             }else{
-                ModeloMarca::where('modelo_id',$id)->update($no_active);
+                ModeloMarca::where('model_id',$id)->update($no_active);
                 $con = new ModeloMarca();
-                $con->modelo_id = $id;
+                $con->model_id = $id;
                 $con->marca_id = $datos['marca'];
                 $con->created_by = 1;
                 $con->save();
             }
 
             if($datos['active']=='0'){
-                InfraModelo::where('modelo_id',$id)->update($no_active);
-                ModeloMarca::where('modelo_id',$id)->update($no_active);
+                InfraModelo::where('model_id',$id)->update($no_active);
+                ModeloMarca::where('model_id',$id)->update($no_active);
             }
 
             return response()->json([
