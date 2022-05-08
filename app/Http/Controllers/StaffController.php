@@ -12,8 +12,10 @@ use Illuminate\Validation\ValidationException;
 class StaffController extends Controller
 {
     public function allStaff(){
-        return Staff::select(
+        return Staff::with('user')
+        ->select(
             'id',
+            'user_id',
             'nombre',
             'apellido_paterno',
             'apellido_materno',
@@ -30,8 +32,10 @@ class StaffController extends Controller
     }
 
     public function staffById($id){
-        return Staff::select(
+        return Staff::with('user')
+        ->select(
             'id',
+            'user_id',
             'nombre',
             'apellido_paterno',
             'apellido_materno',
