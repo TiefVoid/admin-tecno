@@ -36,7 +36,9 @@ class InfraestructuraController extends Controller
         //filtro por marca
         if($request->has('marca')){
             $query->whereHas('modelo.marca', function ($q) use ($data) {
-                $q->where('marca.id', $data['marca']);
+                $q->select('marca.id','nombre')
+                ->where('marca.id', $data['marca'])
+                ->where('active', '1');
             });
         }else{
             $query->with([
