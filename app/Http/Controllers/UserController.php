@@ -16,12 +16,22 @@ class UserController extends Controller
 
     public function showUsers(Request $request){
         $data = $request->all();
+
+        $query = User::select('id','user','password','mail','nivel')->where('active','1');
+
         if($request->has('unused')){
-            return User::doesntHave('staff')
-            ->select('id','user','password','mail','nivel')->where('active','1')->get();
-        }else{
-            return User::select('id','user','password','mail','nivel')->where('active','1')->get();
+            $query->doesntHave('staff');
         }
+
+        if($request->has('mail')){
+            $query->Where('mail','like','%'.$data['mail'].'%');
+        }
+
+        if($request->has('nivel')){
+            $query->where('nivel',$data['nivel']);
+        }
+
+        return $query->get();
     }
 
     public function newUser(Request $request){

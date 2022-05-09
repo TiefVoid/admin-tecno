@@ -11,8 +11,15 @@ use Illuminate\Validation\ValidationException;
 
 class TipoController extends Controller
 {
-    public function allTypes(){
-        return Tipo::select('id','nombre')->where('active','1')->get();
+    public function allTypes(Request $request){
+        $data = $request->all();
+        $query = Tipo::select('id','nombre')->where('active','1');
+
+        if($request->has('nombre')){
+            $query->Where('nombre','like','%'.$data['nombre'].'%');
+        }
+
+        return $query->get();
     }
 
     public function typeById($id){

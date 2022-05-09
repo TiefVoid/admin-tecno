@@ -11,8 +11,15 @@ use Illuminate\Validation\ValidationException;
 
 class AreaController extends Controller
 {
-    public function allAreas(){
-        return Area::select('id','nombre')->where('active','1')->get();
+    public function allAreas(Request $request){
+        $data = $request->all();
+        $query = Area::select('id','nombre')->where('active','1');
+
+        if($request->has('nombre')){
+            $query->Where('nombre','like','%'.$data['nombre'].'%');
+        }
+
+        return $query->get();
     }
 
     public function areaById($id){

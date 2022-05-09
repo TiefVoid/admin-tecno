@@ -11,8 +11,10 @@ use Illuminate\Validation\ValidationException;
 
 class StaffController extends Controller
 {
-    public function allStaff(){
-        return Staff::with('user')
+    public function allStaff(Request $request){
+        $data = $request->all();
+
+        $query = Staff::with('user')
         ->select(
             'id',
             'user_id',
@@ -27,8 +29,21 @@ class StaffController extends Controller
             'curp',
             'num_staff'
             )
-        ->where('active','1')
-        ->get();
+        ->where('active','1');
+        
+        if($request->has('search')){
+            $query->orWhere('nombre','like','%'.$data['search'].'%')
+            ->orWhere('apellido_paterno','like','%'.$data['search'].'%')
+            ->orWhere('apellido_materno','like','%'.$data['search'].'%')
+            ->orWhere('direccion','like','%'.$data['search'].'%')
+            ->orWhere('mail','like','%'.$data['search'].'%')
+            ->orWhere('puesto','like','%'.$data['search'].'%')
+            ->orWhere('rfc','like','%'.$data['search'].'%')
+            ->orWhere('curp','like','%'.$data['search'].'%')
+            ->orWhere('num_staff','like','%'.$data['search'].'%');
+        }
+
+        return $query->get();
     }
 
     public function staffById($id){
