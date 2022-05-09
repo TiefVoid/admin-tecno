@@ -33,6 +33,7 @@ Route::prefix('user') -> group(function(){
     Route::get('/view',[UserController::class, 'showUsers']);
     Route::put('/edit/{id}',[UserController::class, 'editUser']);
     Route::put('/edit/pass/{id}',[UserController::class, 'editPass']);
+    Route::delete('/del/{id}',[UserController::class, 'delUser']);
 });
 
 Route::prefix('infra') -> group(function(){
