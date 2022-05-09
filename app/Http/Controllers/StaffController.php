@@ -38,6 +38,7 @@ class StaffController extends Controller
                 ->orWhere('apellido_materno','like','%'.$data['search'].'%')
                 ->orWhere('direccion','like','%'.$data['search'].'%')
                 ->orWhere('mail','like','%'.$data['search'].'%')
+                ->orWhere('telefono','like','%'.$data['search'].'%')
                 ->orWhere('puesto','like','%'.$data['search'].'%')
                 ->orWhere('rfc','like','%'.$data['search'].'%')
                 ->orWhere('curp','like','%'.$data['search'].'%')
