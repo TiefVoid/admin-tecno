@@ -14,7 +14,7 @@ class ModeloController extends Controller
     public function allModels(Request $request){
         $data = $request->all();
 
-        $query = Modelo::with('marca')->select('id','marca_id','nombre')->where('active','1')->get();
+        $query = Modelo::with('marca')->select('id','marca_id','nombre')->where('active','1');
 
         if($request->has('marca')){
             $query->where('marca_id',$data['marca']);
