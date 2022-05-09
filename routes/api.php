@@ -34,6 +34,7 @@ Route::prefix('user') -> group(function(){
 });
 
 Route::prefix('infra') -> group(function(){
+    Route::get('/staff/view',[InfraestructuraController::class, 'showInfraToStaff']);
     Route::get('/view',[InfraestructuraController::class, 'showInfra']);
     Route::post('/new',[InfraestructuraController::class, 'addInfra']);
     Route::delete('/del/{id}',[InfraestructuraController::class, 'delInfra']);
