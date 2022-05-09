@@ -83,9 +83,9 @@ class UserController extends Controller
         if(!empty($check)){
             $datos = $request->all();
             $validator = Validator::make($datos, [
-                'nivel' => 'required|string',
+                'user' => 'required|string',
                 'mail' => 'required|email',
-                'user' => 'required|in:Admin,Staff',
+                'nivel' => 'required|in:Admin,Staff',
                 'active' => 'required|in:1,0'
             ]);
 
