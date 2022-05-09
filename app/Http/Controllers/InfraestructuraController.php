@@ -294,6 +294,29 @@ class InfraestructuraController extends Controller
         }
     }
 
+    public function editInfraLimited($id, Request $request){
+        $check = Infraestructura::find($id);
+        if(!empty($check)){
+            $datos = $request->all();
+
+            $equipo = array(
+                'detalles' => $datos['detalles'],
+                'ultimo_mant' => $datos['ultimo_mant'],
+                'updated_by' => 1
+            );
+
+            Infraestructura::where('id',$id)->update($equipo);
+
+            return response()->json([
+                'detail' => 'Equipo actualizado exitosamente',
+                'done' => true]);
+        }else{
+            return response()->json([
+                'detail' => 'El equipo no existe',
+                'done' => false]);
+        }
+    }
+
     public function editInfra($id, Request $request){
         $check = Infraestructura::find($id);
         if(!empty($check)){
