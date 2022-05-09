@@ -20,7 +20,7 @@ class InfraestructuraController extends Controller
         $query = Infraestructura::select('id','nombre','num_serie','ultimo_mant','detalles','capacidad','unidad')
         ->where('active','1');
         
-        //filtro por modelo
+        //filtro por modelo y marca
         if($request->has('modelo') && $request->has('marca')){
             $query->whereHas('modelo', function ($q) use ($data) {
                 $q->where('modelo.id', $data['modelo'])
@@ -29,18 +29,52 @@ class InfraestructuraController extends Controller
             ->with([
                 'modelo'=> function ($query){
                     $query->select('modelo.id','modelo.marca_id','nombre')
+                    ->wherePivot('active', '1')
                     ->with([
                         'marca'=> function ($query){
-                            $query->select('marca.id','nombre');
+                            $query->select('marca.id','nombre')
+                            ->where('marca.active','1');
+                        }]);
+                }]);
+        //filtro por modelo
+        }else if($request->has('modelo')){
+            $query->whereHas('modelo', function ($q) use ($data) {
+                $q->where('modelo.id', $data['modelo']);
+            })
+            ->with([
+                'modelo'=> function ($query){
+                    $query->select('modelo.id','modelo.marca_id','nombre')
+                    ->wherePivot('active', '1')
+                    ->with([
+                        'marca'=> function ($query){
+                            $query->select('marca.id','nombre')
+                            ->where('marca.active','1');
+                        }]);
+                }]);
+        //filtro por marca
+        }else if($request->has('marca')){
+            $query->whereHas('modelo', function ($q) use ($data) {
+                $q->where('modelo.marca_id', $data['marca']);
+            })
+            ->with([
+                'modelo'=> function ($query){
+                    $query->select('modelo.id','modelo.marca_id','nombre')
+                    ->wherePivot('active', '1')
+                    ->with([
+                        'marca'=> function ($query){
+                            $query->select('marca.id','nombre')
+                            ->where('marca.active','1');
                         }]);
                 }]);
         }else{
             $query->with([
                 'modelo'=> function ($query){
                     $query->select('modelo.id','modelo.marca_id','nombre')
+                    ->wherePivot('active', '1')
                     ->with([
                         'marca'=> function ($query){
-                            $query->select('marca.id','nombre');
+                            $query->select('marca.id','nombre')
+                            ->where('marca.active','1');
                         }]);
                 }]);
         }
