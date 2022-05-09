@@ -21,20 +21,27 @@ class InfraestructuraController extends Controller
         ->where('active','1');
         
         //filtro por modelo
-        if($request->has('modelo')){
+        if($request->has('modelo') && $request->has('marca')){
             $query->whereHas('modelo', function ($q) use ($data) {
-                $q->where('modelo.id', $data['modelo']);
+                $q->where('modelo.id', $data['modelo'])
+                ->where('modelo.marca_id', $data['marca']);
             })
             ->with([
                 'modelo'=> function ($query){
-                    $query->select('modelo.id','nombre')
-                    ->wherePivot('active', '1');
+                    $query->select('modelo.id','modelo.marca_id','nombre')
+                    ->with([
+                        'marca'=> function ($query){
+                            $query->select('marca.id','nombre');
+                        }]);
                 }]);
         }else{
             $query->with([
                 'modelo'=> function ($query){
-                    $query->select('modelo.id','nombre')
-                    ->wherePivot('active', '1');
+                    $query->select('modelo.id','modelo.marca_id','nombre')
+                    ->with([
+                        'marca'=> function ($query){
+                            $query->select('marca.id','nombre');
+                        }]);
                 }]);
         }
 

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Modelo;
 use App\Models\InfraModelo;
-use App\Models\ModeloMarca;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -29,10 +28,7 @@ class ModeloController extends Controller
     }
 
     public function modelById($id){
-        return Modelo::with([
-            'marca'=> function ($query){
-                $query->wherePivot('active', '1');
-            }])->select('id','nombre')->where('active','1')->where('id',$id)->get();
+        return Modelo::with('marca')->select('id','marca_id','nombre')->where('active','1')->where('id',$id)->get();
     }
 
     public function delModel($id){
@@ -44,7 +40,6 @@ class ModeloController extends Controller
             );
             Modelo::where('id',$id)->update($data);
             InfraModelo::where('model_id',$id)->update($data);
-            ModeloMarca::where('model_id',$id)->update($data);
             return response()->json([
                 'detail' => 'Modelo desactivado exitosamente',
                 'done' => true]);
@@ -71,10 +66,9 @@ class ModeloController extends Controller
 
             $cat = new Modelo();
             $cat->nombre = $datos['nombre'];
+            $cat->marca_id = $datos['marca'];
             $cat->created_by = 1;
             $cat->save();
-
-            $cat->marca()->attach($datos['marca'],['created_by'=>1]);
 
             return response()->json([
                 'detail' => 'Modelo registrado exitosamente',
@@ -100,33 +94,17 @@ class ModeloController extends Controller
 
             $model = array(
                 'nombre' => $datos['nombre'],
+                'marca_id' => $datos['marca'],
                 'active' => $datos['active'],
                 'updated_by' => 1
             );
 
             $no_active = array('active'=>'0','updated_by'=>1);
-            $active = array('active'=>'1','updated_by'=>1);
 
             Modelo::where('id',$id)->update($model);
 
-            $check = ModeloMarca::where('marca_id',$datos['marca'])->where('model_id',$id)->get();
-            if(isset($check)){
-                ModeloMarca::where('model_id',$id)->update($no_active);
-                ModeloMarca::where('marca_id',$datos['marca'])
-                ->where('model_id',$id)
-                ->update($active);
-            }else{
-                ModeloMarca::where('model_id',$id)->update($no_active);
-                $con = new ModeloMarca();
-                $con->model_id = $id;
-                $con->marca_id = $datos['marca'];
-                $con->created_by = 1;
-                $con->save();
-            }
-
             if($datos['active']=='0'){
                 InfraModelo::where('model_id',$id)->update($no_active);
-                ModeloMarca::where('model_id',$id)->update($no_active);
             }
 
             return response()->json([
