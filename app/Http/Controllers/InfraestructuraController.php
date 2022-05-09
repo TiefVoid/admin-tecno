@@ -20,7 +20,7 @@ class InfraestructuraController extends Controller
         $query = Infraestructura::select('id','nombre','num_serie','ultimo_mant','detalles','capacidad','unidad')
         ->where('active','1')
         ->whereHas('staff', function ($q) use ($data) {
-            $q->where('staff.id', $data['staff']);
+            $q->where('staff.user_id', $data['user']);
         })
         ->with([
             'staff'=> function ($query) {
