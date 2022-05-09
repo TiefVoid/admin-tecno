@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Marca;
-use App\Models\ModeloMarca;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -27,7 +26,6 @@ class MarcaController extends Controller
                 'updated_by'=>1
             );
             Marca::where('id',$id)->update($data);
-            ModeloMarca::where('marca_id',$id)->update($data);
             return response()->json([
                 'detail' => 'Marca desactivada exitosamente',
                 'done' => true]);
@@ -78,9 +76,6 @@ class MarcaController extends Controller
             }
 
             Marca::where('id',$id)->update($datos);
-            if($datos['active']=='0'){
-                ModeloMarca::where('marca_id',$id)->update(['active'=>$datos['active']]);
-            }
 
             return response()->json([
                 'detail' => 'Marca actualizada exitosamente',
