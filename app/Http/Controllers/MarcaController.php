@@ -10,8 +10,15 @@ use Illuminate\Validation\ValidationException;
 
 class MarcaController extends Controller
 {
-    public function allMarcas(){
-        return Marca::select('id','nombre')->where('active','1')->get();
+    public function allMarcas(Request $request){
+        $data = $request->all();
+        $query = Marca::select('id','nombre')->where('active','1');
+
+        if($request->has('nombre')){
+            $query->Where('nombre','like','%'.$data['nombre'].'%');
+        }
+
+        return $query->get();
     }
 
     public function marcaById($id){
