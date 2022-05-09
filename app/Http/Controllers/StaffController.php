@@ -32,15 +32,17 @@ class StaffController extends Controller
         ->where('active','1');
         
         if($request->has('search')){
-            $query->orWhere('nombre','like','%'.$data['search'].'%')
-            ->orWhere('apellido_paterno','like','%'.$data['search'].'%')
-            ->orWhere('apellido_materno','like','%'.$data['search'].'%')
-            ->orWhere('direccion','like','%'.$data['search'].'%')
-            ->orWhere('mail','like','%'.$data['search'].'%')
-            ->orWhere('puesto','like','%'.$data['search'].'%')
-            ->orWhere('rfc','like','%'.$data['search'].'%')
-            ->orWhere('curp','like','%'.$data['search'].'%')
-            ->orWhere('num_staff','like','%'.$data['search'].'%');
+            $query->where(function($q) use($data){
+                $q->where('nombre','like','%'.$data['search'].'%')
+                ->orWhere('apellido_paterno','like','%'.$data['search'].'%')
+                ->orWhere('apellido_materno','like','%'.$data['search'].'%')
+                ->orWhere('direccion','like','%'.$data['search'].'%')
+                ->orWhere('mail','like','%'.$data['search'].'%')
+                ->orWhere('puesto','like','%'.$data['search'].'%')
+                ->orWhere('rfc','like','%'.$data['search'].'%')
+                ->orWhere('curp','like','%'.$data['search'].'%')
+                ->orWhere('num_staff','like','%'.$data['search'].'%');
+            });
         }
 
         return $query->get();
