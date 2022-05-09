@@ -34,6 +34,23 @@ class UserController extends Controller
         return $query->get();
     }
 
+    public function delUser($id){
+        $check = User::find($id);
+        if(!empty($check)){
+            $data = array(
+                'active'=>'0'
+            );
+            User::where('id',$id)->update($data);
+            return response()->json([
+                'detail' => 'Usuario desactivado exitosamente',
+                'done' => true]);
+        }else{
+            return response()->json([
+                'detail' => 'El usuario no existe',
+                'done' => false]);
+        }
+    }
+
     public function editPass($id,Request $request){
         $check = User::find($id);
         if(!empty($check)){

@@ -31,7 +31,7 @@ class LoginController extends Controller
         $mail = $request->get('mail','');
         $password = $request->get('password','');
         
-        $user = User::where(['mail' => $mail])->first();
+        $user = User::where(['mail' => $mail])->where(['active' => '1'])->first();
         if(!$user)
         {
             return response () -> json (['detail' => '¡El nombre de usuario o contraseña es incorrecto!','done' => false]);
