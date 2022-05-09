@@ -32,8 +32,7 @@ class InfraestructuraController extends Controller
                     ->wherePivot('active', '1')
                     ->with([
                         'marca'=> function ($query){
-                            $query->select('marca.id','nombre')
-                            ->where('marca.active','1');
+                            $query->select('marca.id','nombre');
                         }]);
                 }]);
         //filtro por modelo
@@ -47,8 +46,7 @@ class InfraestructuraController extends Controller
                     ->wherePivot('active', '1')
                     ->with([
                         'marca'=> function ($query){
-                            $query->select('marca.id','nombre')
-                            ->where('marca.active','1');
+                            $query->select('marca.id','nombre');
                         }]);
                 }]);
         //filtro por marca
@@ -62,8 +60,7 @@ class InfraestructuraController extends Controller
                     ->wherePivot('active', '1')
                     ->with([
                         'marca'=> function ($query){
-                            $query->select('marca.id','nombre')
-                            ->where('marca.active','1');
+                            $query->select('marca.id','nombre');
                         }]);
                 }]);
         }else{
@@ -73,8 +70,7 @@ class InfraestructuraController extends Controller
                     ->wherePivot('active', '1')
                     ->with([
                         'marca'=> function ($query){
-                            $query->select('marca.id','nombre')
-                            ->where('marca.active','1');
+                            $query->select('marca.id','nombre');
                         }]);
                 }]);
         }
