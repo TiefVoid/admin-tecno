@@ -363,11 +363,12 @@ class InfraestructuraController extends Controller
 
             $check = json_decode(InfraArea::where('area_id',$datos['area'])->where('infr_id',$id)->get());
             if(!empty($check)){
+                InfraArea::where('infr_id',$id)->update($no_active);
                 InfraArea::where('area_id',$datos['area'])
                 ->where('infr_id',$id)
                 ->update($active);
             }else{
-                InfraArea::where('area_id',$id)->update($no_active);
+                InfraArea::where('infr_id',$id)->update($no_active);
                 $con = new InfraArea();
                 $con->infr_id = $id;
                 $con->area_id = $datos['area'];
@@ -376,6 +377,7 @@ class InfraestructuraController extends Controller
 
             $check = json_decode(InfraModelo::where('model_id',$datos['modelo'])->where('infr_id',$id)->get());
             if(!empty($check)){
+                InfraModelo::where('infr_id',$id)->update($no_active);
                 InfraModelo::where('model_id',$datos['modelo'])
                 ->where('infr_id',$id)
                 ->update($active);
@@ -389,6 +391,7 @@ class InfraestructuraController extends Controller
 
             $check = json_decode(InfraStaff::where('person_id',$datos['staff'])->where('infr_id',$id)->get());
             if(!empty($check)){
+                InfraStaff::where('infr_id',$id)->update($no_active);
                 InfraStaff::where('person_id',$datos['staff'])
                 ->where('infr_id',$id)
                 ->update($active);
@@ -402,6 +405,7 @@ class InfraestructuraController extends Controller
 
             $check = json_decode(InfraTipo::where('tipo_id',$datos['tipo'])->where('infr_id',$id)->get());
             if(!empty($check)){
+                InfraTipo::where('infr_id',$id)->update($no_active);
                 InfraTipo::where('tipo_id',$datos['tipo'])
                 ->where('infr_id',$id)
                 ->update($active);
