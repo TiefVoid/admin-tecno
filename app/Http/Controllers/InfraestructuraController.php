@@ -436,6 +436,7 @@ class InfraestructuraController extends Controller
                 'nombre' => 'required|string',
                 'num_serie' => 'required|string',
                 'capacidad' => 'required|numeric',
+                'detalles' => 'required|string',
                 'unidad' => 'required|string',
                 'tipo' => 'required|integer',
                 'modelo' => 'required|integer',
@@ -456,6 +457,8 @@ class InfraestructuraController extends Controller
             $infra->nombre = $datos['nombre'];
             $infra->num_serie = $datos['num_serie'];
             $infra->capacidad = $datos['capacidad'];
+            $infra->detalles = $datos['detalles'];
+            $infra->ultimo_mant = date("Y-m-d H:i:s");
             $infra->unidad = $datos['unidad'];
             $infra->save();
 
