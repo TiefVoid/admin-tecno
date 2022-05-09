@@ -276,7 +276,7 @@ class InfraestructuraController extends Controller
         $infra = Infraestructura::find($id);
 
         if(!empty($infra)){
-            $del = array('active'=>'0','updated_by'=>1);
+            $del = array('active'=>'0');
             
             Infraestructura::where('id', $id)->update($del);
             InfraArea::where('infr_id',$id)->update($del);
@@ -301,8 +301,7 @@ class InfraestructuraController extends Controller
 
             $equipo = array(
                 'detalles' => $datos['detalles'],
-                'ultimo_mant' => $datos['ultimo_mant'],
-                'updated_by' => 1
+                'ultimo_mant' => $datos['ultimo_mant']
             );
 
             Infraestructura::where('id',$id)->update($equipo);
@@ -342,16 +341,15 @@ class InfraestructuraController extends Controller
     
             }
 
-            $no_active = array('active'=>'0','updated_by'=>1);
-            $active = array('active'=>'1','updated_by'=>1);
+            $no_active = array('active'=>'0');
+            $active = array('active'=>'1');
 
             $equipo = array(
                 'nombre' => $datos['nombre'],
                 'num_serie' => $datos['num_serie'],
                 'capacidad' => $datos['capacidad'],
                 'unidad' => $datos['unidad'],
-                'active' => $datos['active'],
-                'updated_by' => 1
+                'active' => $datos['active']
             );
 
             if($request->has('detalles')){
@@ -373,7 +371,6 @@ class InfraestructuraController extends Controller
                 $con = new InfraArea();
                 $con->infr_id = $id;
                 $con->area_id = $datos['area'];
-                $con->created_by = 1;
                 $con->save();
             }
 
@@ -387,7 +384,6 @@ class InfraestructuraController extends Controller
                 $con = new InfraModelo();
                 $con->infr_id = $id;
                 $con->model_id = $datos['modelo'];
-                $con->created_by = 1;
                 $con->save();
             }
 
@@ -401,7 +397,6 @@ class InfraestructuraController extends Controller
                 $con = new InfraStaff();
                 $con->infr_id = $id;
                 $con->person_id = $datos['staff'];
-                $con->created_by = 1;
                 $con->save();
             }
 
@@ -415,7 +410,6 @@ class InfraestructuraController extends Controller
                 $con = new InfraTipo();
                 $con->infr_id = $id;
                 $con->tipo_id = $datos['tipo'];
-                $con->created_by = 1;
                 $con->save();
             }
 
@@ -463,14 +457,12 @@ class InfraestructuraController extends Controller
             $infra->num_serie = $datos['num_serie'];
             $infra->capacidad = $datos['capacidad'];
             $infra->unidad = $datos['unidad'];
-            $infra->created_by = 1;
             $infra->save();
 
-            //['created_by'=>Auth::user()->id]
-            $infra->modelo()->attach($datos['modelo'],['created_by'=>1]);
-            $infra->staff()->attach($datos['staff'],['created_by'=>1]);
-            $infra->area()->attach($datos['area'],['created_by'=>1]);
-            $infra->tipo()->attach($datos['tipo'],['created_by'=>1]);
+            $infra->modelo()->attach($datos['modelo']);
+            $infra->staff()->attach($datos['staff']);
+            $infra->area()->attach($datos['area']);
+            $infra->tipo()->attach($datos['tipo']);
 
             return response()->json([
                 'detail' => 'Equipo registrado exitosamente',

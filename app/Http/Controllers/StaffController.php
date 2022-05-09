@@ -71,8 +71,7 @@ class StaffController extends Controller
         $check = Staff::find($id);
         if(!empty($check)){
             $data = array(
-                'active'=>'0',
-                'updated_by'=>1
+                'active'=>'0'
             );
             Staff::where('id',$id)->update($data);
             InfraStaff::where('person_id',$id)->update($data);
@@ -121,7 +120,6 @@ class StaffController extends Controller
             $cat->rfc = $datos['rfc'];
             $cat->curp = $datos['curp'];
             $cat->num_staff = $datos['num_staff'];
-            $cat->created_by = 1;
             $cat->save();
 
             return response()->json([

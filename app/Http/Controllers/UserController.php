@@ -56,7 +56,6 @@ class UserController extends Controller
 		$user->password = $pass;
         $user->mail = $datos["mail"];
         $user->nivel = $datos['nivel'];
-        $user->created_by = 1;
 	    $user->remember_token = '0';
 	    $user->save();
 

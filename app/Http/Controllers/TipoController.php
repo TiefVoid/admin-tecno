@@ -30,8 +30,7 @@ class TipoController extends Controller
         $check = Tipo::find($id);
         if(!empty($check)){
             $data = array(
-                'active'=>'0',
-                'updated_by'=>1
+                'active'=>'0'
             );
             Tipo::where('id',$id)->update($data);
             InfraTipo::where('tipo_id',$id)->update($data);
@@ -60,7 +59,6 @@ class TipoController extends Controller
 
             $cat = new Tipo();
             $cat->nombre = $datos['nombre'];
-            $cat->created_by = 1;
             $cat->save();
 
             return response()->json([

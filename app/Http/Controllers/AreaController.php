@@ -30,8 +30,7 @@ class AreaController extends Controller
         $check = Area::find($id);
         if(!empty($check)){
             $data = array(
-                'active'=>'0',
-                'updated_by'=>1
+                'active'=>'0'
             );
             Area::where('id',$id)->update($data);
             InfraArea::where('area_id',$id)->update($data);
@@ -60,7 +59,6 @@ class AreaController extends Controller
 
             $cat = new Area();
             $cat->nombre = $datos['nombre'];
-            $cat->created_by = 1;
             $cat->save();
 
             return response()->json([

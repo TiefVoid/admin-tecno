@@ -35,8 +35,7 @@ class ModeloController extends Controller
         $check = Modelo::find($id);
         if(!empty($check)){
             $data = array(
-                'active'=>'0',
-                'updated_by'=>1
+                'active'=>'0'
             );
             Modelo::where('id',$id)->update($data);
             InfraModelo::where('model_id',$id)->update($data);
@@ -67,7 +66,6 @@ class ModeloController extends Controller
             $cat = new Modelo();
             $cat->nombre = $datos['nombre'];
             $cat->marca_id = $datos['marca'];
-            $cat->created_by = 1;
             $cat->save();
 
             return response()->json([
@@ -95,11 +93,10 @@ class ModeloController extends Controller
             $model = array(
                 'nombre' => $datos['nombre'],
                 'marca_id' => $datos['marca'],
-                'active' => $datos['active'],
-                'updated_by' => 1
+                'active' => $datos['active']
             );
 
-            $no_active = array('active'=>'0','updated_by'=>1);
+            $no_active = array('active'=>'0');
 
             Modelo::where('id',$id)->update($model);
 

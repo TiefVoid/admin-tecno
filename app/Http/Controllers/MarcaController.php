@@ -29,8 +29,7 @@ class MarcaController extends Controller
         $check = Marca::find($id);
         if(!empty($check)){
             $data = array(
-                'active'=>'0',
-                'updated_by'=>1
+                'active'=>'0'
             );
             Marca::where('id',$id)->update($data);
             return response()->json([
@@ -58,7 +57,6 @@ class MarcaController extends Controller
 
             $cat = new Marca();
             $cat->nombre = $datos['nombre'];
-            $cat->created_by = 1;
             $cat->save();
 
             return response()->json([
