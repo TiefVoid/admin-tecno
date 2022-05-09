@@ -361,8 +361,8 @@ class InfraestructuraController extends Controller
 
             Infraestructura::where('id',$id)->update($equipo);
 
-            $check = InfraArea::where('area_id',$datos['area'])->where('infr_id',$id)->get();
-            if(isset($check)){
+            $check = json_decode(InfraArea::where('area_id',$datos['area'])->where('infr_id',$id)->get());
+            if(!empty($check)){
                 InfraArea::where('area_id',$datos['area'])
                 ->where('infr_id',$id)
                 ->update($active);
@@ -374,8 +374,8 @@ class InfraestructuraController extends Controller
                 $con->save();
             }
 
-            $check = InfraModelo::where('model_id',$datos['modelo'])->where('infr_id',$id)->get();
-            if(isset($check)){
+            $check = json_decode(InfraModelo::where('model_id',$datos['modelo'])->where('infr_id',$id)->get());
+            if(!empty($check)){
                 InfraModelo::where('model_id',$datos['modelo'])
                 ->where('infr_id',$id)
                 ->update($active);
@@ -387,8 +387,8 @@ class InfraestructuraController extends Controller
                 $con->save();
             }
 
-            $check = InfraStaff::where('person_id',$datos['staff'])->where('infr_id',$id)->get();
-            if(isset($check)){
+            $check = json_decode(InfraStaff::where('person_id',$datos['staff'])->where('infr_id',$id)->get());
+            if(!empty($check)){
                 InfraStaff::where('person_id',$datos['staff'])
                 ->where('infr_id',$id)
                 ->update($active);
@@ -400,8 +400,8 @@ class InfraestructuraController extends Controller
                 $con->save();
             }
 
-            $check = InfraTipo::where('tipo_id',$datos['tipo'])->where('infr_id',$id)->get();
-            if(isset($check)){
+            $check = json_decode(InfraTipo::where('tipo_id',$datos['tipo'])->where('infr_id',$id)->get());
+            if(!empty($check)){
                 InfraTipo::where('tipo_id',$datos['tipo'])
                 ->where('infr_id',$id)
                 ->update($active);
