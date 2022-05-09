@@ -31,6 +31,8 @@ Route::post('/login',[LoginController::class, 'login']);
 
 Route::prefix('user') -> group(function(){
     Route::get('/view',[UserController::class, 'showUsers']);
+    Route::put('/edit/{id}',[UserController::class, 'editUser']);
+    Route::put('/edit/pass/{id}',[UserController::class, 'editPass']);
 });
 
 Route::prefix('infra') -> group(function(){

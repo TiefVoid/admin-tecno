@@ -34,6 +34,63 @@ class UserController extends Controller
         return $query->get();
     }
 
+    public function editPass($id,Request $request){
+        $check = User::find($id);
+        if(!empty($check)){
+            $datos = $request->all();
+            $validator = Validator::make($datos, [
+                'password' => 'required|string'
+            ]);
+
+            if ($validator->fails()){
+                return response()->json([
+                    'detail'=>$validator->errors(),
+                    'done' => false
+                ], 400);
+            }
+
+            User::where('id',$id)->update(['password' => Hash::make($datos["password"])]);
+
+            return response()->json([
+                'detail' => 'Contraseña actualizada exitosamente',
+                'done' => true]);
+        }else{
+            return response()->json([
+                'detail' => 'El usuario no existe',
+                'done' => false]);
+        }
+    }
+
+    public function editUser($id,Request $request){
+        $check = User::find($id);
+        if(!empty($check)){
+            $datos = $request->all();
+            $validator = Validator::make($datos, [
+                'nivel' => 'required|string',
+                'mail' => 'required|email',
+                'user' => 'required|in:Admin,Staff',
+                'active' => 'required|in:1,0'
+            ]);
+
+            if ($validator->fails()){
+                return response()->json([
+                    'detail'=>$validator->errors(),
+                    'done' => false
+                ], 400);
+            }
+
+            User::where('id',$id)->update($datos);
+
+            return response()->json([
+                'detail' => 'Usuario actualizado exitosamente',
+                'done' => true]);
+        }else{
+            return response()->json([
+                'detail' => 'El usuario no existe',
+                'done' => false]);
+        }
+    }
+
     public function newUser(Request $request){
         $datos = $request->all();
         $validator = Validator::make($datos, [
