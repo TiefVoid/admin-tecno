@@ -31,6 +31,11 @@ class UserController extends Controller
             $query->where('nivel',$data['nivel']);
         }
 
+        if($request->has('pageNumber')){
+            $offset = ($data['pageNumber']-1)*15;
+            $query->skip($offset)->take(15);
+        }
+        
         return $query->get();
     }
 

@@ -135,6 +135,11 @@ class InfraestructuraController extends Controller
             $query->where('ultimo_mant','<=', $data['end_date']);
         }
 
+        if($request->has('pageNumber')){
+            $offset = ($data['pageNumber']-1)*15;
+            $query->skip($offset)->take(15);
+        }
+
         return $query->get();
     }
 
@@ -267,6 +272,11 @@ class InfraestructuraController extends Controller
         
         if($request->has('end_date')){
             $query->where('ultimo_mant','<=', $data['end_date']);
+        }
+
+        if($request->has('pageNumber')){
+            $offset = ($data['pageNumber']-1)*15;
+            $query->skip($offset)->take(15);
         }
 
         return $query->get();
