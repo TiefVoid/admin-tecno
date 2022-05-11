@@ -17,11 +17,6 @@ class MarcaController extends Controller
         if($request->has('nombre')){
             $query->Where('nombre','like','%'.$data['nombre'].'%');
         }
-
-        if($request->has('pageNumber')){
-            $offset = ($data['pageNumber']-1)*15;
-            $query->skip($offset)->take(15);
-        }
         
         return $query->get();
     }
