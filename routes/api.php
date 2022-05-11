@@ -80,6 +80,7 @@ Route::prefix('modelo')->group(function(){
 Route::prefix('staff')->group(function(){
     Route::get('/view',[StaffController::class, 'allStaff']);
     Route::get('/view/{id}',[StaffController::class, 'staffById']);
+    Route::get('/user/{id}',[StaffController::class, 'staffByUser']);
     Route::delete('/del/{id}',[StaffController::class, 'delStaff']);
     Route::post('/new',[StaffController::class, 'addStaff']);
     Route::put('/edit/{id}',[StaffController::class, 'editStaff']);

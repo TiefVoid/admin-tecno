@@ -54,6 +54,27 @@ class StaffController extends Controller
         return $query->get();
     }
 
+    public function staffByUser($id){
+        return Staff::with('user')
+        ->select(
+            'id',
+            'user_id',
+            'nombre',
+            'apellido_paterno',
+            'apellido_materno',
+            'direccion',
+            'telefono',
+            'mail',
+            'puesto',
+            'rfc',
+            'curp',
+            'num_staff'
+            )
+        ->where('active','1')
+        ->where('user_id',$id)
+        ->get();
+    }
+
     public function staffById($id){
         return Staff::with('user')
         ->select(
